@@ -147,6 +147,11 @@
     .category-tab:not(.active):hover { background: rgba(255,48,31,0.12); }
     .qty-btn { transition: all 0.2s ease; }
     .qty-btn:hover { background: var(--accent-red); color: #fff; }
+    .scenario-tab.active { background: var(--accent-red); color: #fff; border-color: var(--accent-red); }
+    .scenario-tab.active i { color: #fff; }
+    .scenario-tab:not(.active):hover { background: rgba(255,48,31,0.1); }
+    @media (max-width: 1023px) { body { padding-bottom: 64px; } }
+    .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   </style>
 </head>
 <body class="text-white antialiased overflow-x-hidden">
@@ -154,36 +159,35 @@
   <!-- ===== STICKY HEADER ===== -->
   <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:rgba(22,47,118,0.85)">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 sm:h-18">
-        <button id="mobileNavBtn" class="lg:hidden p-2 -ml-2 text-white/70 hover:text-white transition-colors" aria-label="Відкрити меню навігації">
-          <i class="fas fa-bars text-xl"></i>
-        </button>
-        <a href="#" class="flex items-center gap-2.5 group">
-          <span class="fish-container">
-            <i class="fas fa-hook hook-icon"></i>
-            <i class="fas fa-fish text-2xl sm:text-3xl text-accent-gold swim"></i>
-          </span>
-          <span class="text-lg sm:text-xl font-bold tracking-tight">SmokeFishBarn</span>
-        </a>
-        <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-white/70">
+      <div class="flex items-center justify-between h-14 sm:h-16">
+        <div class="flex items-center gap-3">
+          <button id="mobileNavBtn" class="lg:hidden p-2 -ml-2 text-white/70 hover:text-white transition-colors" aria-label="Відкрити меню">
+            <i class="fas fa-bars text-lg"></i>
+          </button>
+          <a href="#" class="flex items-center gap-2 group">
+            <span class="fish-container">
+              <i class="fas fa-hook hook-icon"></i>
+              <i class="fas fa-fish text-xl sm:text-2xl text-accent-gold swim"></i>
+            </span>
+            <span class="text-base sm:text-lg font-bold tracking-tight">SmokeFishBarn</span>
+          </a>
+        </div>
+        <nav class="hidden lg:flex items-center gap-6 text-sm font-medium text-white/70">
           <a href="#catalog" class="hover:text-white transition-colors">Каталог</a>
+          <a href="#sets" class="hover:text-white transition-colors">Набори</a>
           <a href="#gallery" class="hover:text-white transition-colors">Галерея</a>
-          <a href="#process" class="hover:text-white transition-colors">Процесс</a>
-          <a href="#delivery" class="hover:text-white transition-colors">Доставка</a>
+          <a href="#howtoorder" class="hover:text-white transition-colors">Як замовити</a>
           <a href="#faq" class="hover:text-white transition-colors">FAQ</a>
         </nav>
-        <div class="flex items-center gap-2 sm:gap-3">
-          <button id="cartBtn" class="relative p-2.5 text-white/70 hover:text-white transition-colors" aria-label="Открыть корзину">
-            <i class="fas fa-shopping-bag text-xl"></i>
+        <div class="flex items-center gap-2">
+          <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 bg-accent-red hover:bg-[#E62A1B] text-white font-semibold rounded-xl transition-all text-xs btn-scale" aria-label="Telegram">
+            <i class="fab fa-telegram-plane"></i>
+            <span>Telegram</span>
+          </a>
+          <button id="cartBtn" class="relative p-2 text-white/70 hover:text-white transition-colors" aria-label="Кошик">
+            <i class="fas fa-shopping-bag text-lg"></i>
             <span id="cartBadge" class="absolute -top-0.5 -right-0.5 bg-accent-red text-white text-[10px] font-bold min-w-[18px] h-[18px] rounded-full flex items-center justify-center px-1 leading-none" style="display:none">0</span>
           </button>
-          <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link hidden sm:flex items-center gap-2 px-4 py-2 bg-accent-red hover:bg-[#E62A1B] text-white font-semibold rounded-xl transition-all text-sm btn-scale" aria-label="Перейти до Telegram-каналу">
-            <i class="fab fa-telegram-plane"></i>
-            <span>Канал</span>
-          </a>
-          <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link sm:hidden p-2.5 text-accent-gold hover:text-[#FFE44D] transition-colors" aria-label="Перейти до Telegram-каналу">
-            <i class="fab fa-telegram-plane text-xl"></i>
-          </a>
         </div>
       </div>
     </div>
@@ -193,326 +197,457 @@
   <div id="mobileNavOverlay" class="fixed inset-0 z-40 opacity-0 pointer-events-none nav-overlay bg-brand-bg/60 backdrop-blur-sm lg:hidden" aria-hidden="true"></div>
   <div id="mobileNavMenu" class="fixed top-0 right-0 z-40 h-full w-72 bg-brand-card border-l border-brand-border transform translate-x-full nav-menu transition-transform duration-300 lg:hidden">
     <div class="flex items-center justify-between p-5 border-b border-brand-border">
-      <span class="font-semibold text-sm text-white/60">Навігація</span>
+      <span class="font-semibold text-sm text-white/60">Меню</span>
       <button id="mobileNavClose" class="p-1.5 text-white/60 hover:text-white transition-colors" aria-label="Закрити меню"><i class="fas fa-times text-lg"></i></button>
     </div>
     <nav class="flex flex-col p-4 gap-1">
       <a href="#catalog" class="mobile-nav-link px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-brand-border/60 transition-all text-sm font-medium">Каталог</a>
+      <a href="#sets" class="mobile-nav-link px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-brand-border/60 transition-all text-sm font-medium">Готові набори</a>
       <a href="#gallery" class="mobile-nav-link px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-brand-border/60 transition-all text-sm font-medium">Галерея</a>
-      <a href="#process" class="mobile-nav-link px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-brand-border/60 transition-all text-sm font-medium">Процесс</a>
+      <a href="#howtoorder" class="mobile-nav-link px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-brand-border/60 transition-all text-sm font-medium">Як замовити</a>
+      <a href="#reviews" class="mobile-nav-link px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-brand-border/60 transition-all text-sm font-medium">Відгуки</a>
       <a href="#delivery" class="mobile-nav-link px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-brand-border/60 transition-all text-sm font-medium">Доставка</a>
       <a href="#faq" class="mobile-nav-link px-4 py-3 rounded-xl text-white/70 hover:text-white hover:bg-brand-border/60 transition-all text-sm font-medium">FAQ</a>
     </nav>
     <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-brand-border">
       <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link flex items-center justify-center gap-2 w-full px-4 py-3 bg-accent-red hover:bg-[#E62A1B] text-white font-semibold rounded-xl transition-all text-sm btn-scale">
         <i class="fab fa-telegram-plane"></i>
-        <span>Перейти до Telegram-каналу</span>
+        <span>Замовити в Telegram</span>
       </a>
     </div>
   </div>
 
   <!-- ===== HERO ===== -->
-  <section class="relative min-h-[90vh] sm:min-h-screen flex items-center pt-16 sm:pt-18 overflow-hidden">
+  <section class="relative min-h-[90vh] sm:min-h-screen flex items-center pt-14 sm:pt-16 overflow-hidden">
     <div class="absolute inset-0 hero-glow pointer-events-none"></div>
     <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-brand-bg-alt/30 pointer-events-none"></div>
-    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36 w-full hero-parallax">
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32 w-full hero-parallax">
       <div class="max-w-4xl mx-auto text-center">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-accent-red/10 border border-accent-red/20 rounded-full text-accent-red text-xs sm:text-sm font-medium mb-6 sm:mb-8 fade-up">
+        <div class="inline-flex items-center gap-2 px-3 py-1 bg-accent-red/10 border border-accent-red/20 rounded-full text-accent-red text-xs sm:text-sm font-medium mb-5 sm:mb-6 fade-up">
           <i class="fas fa-leaf text-accent-red text-[10px]"></i>
-          <span>Натуральне копчення на вільховій трісці</span>
+          <span>Натуральне копчення на вільховій трісці — без хімії</span>
         </div>
-        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.08] tracking-tight mb-5 sm:mb-6 fade-up">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.08] tracking-tight mb-4 sm:mb-5 fade-up">
           Крафтові рибні<br>
           <span class="text-accent-gold">делікатеси</span> з коптильні
         </h1>
-        <p class="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10 fade-up">
-          Копчення на натуральній вільховій трісці. Обмежені партії — тільки&nbsp;під&nbsp;замовлення. Доставка напряму з коптильні.
+        <p class="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 fade-up">
+          Коптимо малими партіями під замовлення — без рідкого диму, без складування, без хімії.
+          Тільки натуральна вільхова тріска, свіжа риба та ремісничий підхід.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 fade-up">
-          <a href="#catalog" class="w-full sm:w-auto px-8 py-3.5 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-2xl transition-all text-sm sm:text-base shadow-lg shadow-accent-red/20 hover:shadow-accent-red/30 btn-scale text-center">
+          <a href="#catalog" class="w-full sm:w-auto px-7 py-3.5 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-2xl transition-all text-sm sm:text-base shadow-lg shadow-accent-red/20 hover:shadow-accent-red/30 btn-scale text-center">
             <i class="fas fa-eye mr-2"></i>Переглянути каталог
           </a>
-          <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link w-full sm:w-auto px-8 py-3.5 border border-brand-border-light hover:border-accent-red/50 text-white font-semibold rounded-2xl transition-all text-sm sm:text-base hover:bg-brand-card/80 btn-scale text-center">
+          <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link w-full sm:w-auto px-7 py-3.5 border border-brand-border-light hover:border-accent-red/50 text-white font-semibold rounded-2xl transition-all text-sm sm:text-base hover:bg-brand-card/80 btn-scale text-center">
             <i class="fab fa-telegram-plane mr-2"></i>Оформити в Telegram
           </a>
         </div>
+        <div class="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-white/50 fade-up">
+          <span><i class="fas fa-check-circle text-accent-gold mr-1.5"></i>Обмежені партії</span>
+          <span><i class="fas fa-check-circle text-accent-gold mr-1.5"></i>Під замовлення</span>
+          <span><i class="fas fa-check-circle text-accent-gold mr-1.5"></i>Без рідкого диму</span>
+          <span><i class="fas fa-check-circle text-accent-gold mr-1.5"></i>Доставка з коптильні</span>
+        </div>
       </div>
-      <div class="mt-12 sm:mt-16 lg:mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 max-w-3xl mx-auto">
-        <div class="flex items-center gap-3 px-5 py-4 bg-card/50 backdrop-blur-sm rounded-2xl border border-brand-border/50 fade-up">
-          <div class="w-10 h-10 rounded-xl bg-accent-red/10 flex items-center justify-center shrink-0"><i class="fas fa-fire text-accent-red text-sm"></i></div>
-          <div><p class="text-sm font-semibold text-white">Натуральне копчення</p><p class="text-xs text-white/60 mt-0.5">Без рідкого диму та хімії</p></div>
+      <div class="mt-10 sm:mt-14 lg:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-3xl mx-auto">
+        <div class="flex items-center gap-3 px-4 py-3.5 bg-card/40 backdrop-blur-sm rounded-xl border border-brand-border/40 fade-up">
+          <div class="w-9 h-9 rounded-lg bg-accent-red/10 flex items-center justify-center shrink-0"><i class="fas fa-fire text-accent-red text-xs"></i></div>
+          <div><p class="text-sm font-semibold text-white leading-tight">Натуральне копчення</p><p class="text-xs text-white/50 mt-0.5">Без рідкого диму та хімії</p></div>
         </div>
-        <div class="flex items-center gap-3 px-5 py-4 bg-card/50 backdrop-blur-sm rounded-2xl border border-brand-border/50 fade-up" style="transition-delay:0.1s">
-          <div class="w-10 h-10 rounded-xl bg-accent-red/10 flex items-center justify-center shrink-0"><i class="fas fa-fish text-accent-red text-sm"></i></div>
-          <div><p class="text-sm font-semibold text-white">Завжди свіжа партія</p><p class="text-xs text-white/60 mt-0.5">Коптимо під замовлення малими обсягами</p></div>
+        <div class="flex items-center gap-3 px-4 py-3.5 bg-card/40 backdrop-blur-sm rounded-xl border border-brand-border/40 fade-up" style="transition-delay:0.1s">
+          <div class="w-9 h-9 rounded-lg bg-accent-red/10 flex items-center justify-center shrink-0"><i class="fas fa-fish text-accent-red text-xs"></i></div>
+          <div><p class="text-sm font-semibold text-white leading-tight">Свіжа партія</p><p class="text-xs text-white/50 mt-0.5">Коптимо під замовлення малими обсягами</p></div>
         </div>
-        <div class="flex items-center gap-3 px-5 py-4 bg-card/50 backdrop-blur-sm rounded-2xl border border-brand-border/50 fade-up" style="transition-delay:0.2s">
-          <div class="w-10 h-10 rounded-xl bg-accent-red/10 flex items-center justify-center shrink-0"><i class="fas fa-truck text-accent-red text-sm"></i></div>
-          <div><p class="text-sm font-semibold text-white">Пряма доставка</p><p class="text-xs text-white/60 mt-0.5">Дбайливе пакування та швидка відправка</p></div>
+        <div class="flex items-center gap-3 px-4 py-3.5 bg-card/40 backdrop-blur-sm rounded-xl border border-brand-border/40 fade-up" style="transition-delay:0.2s">
+          <div class="w-9 h-9 rounded-lg bg-accent-red/10 flex items-center justify-center shrink-0"><i class="fas fa-truck text-accent-red text-xs"></i></div>
+          <div><p class="text-sm font-semibold text-white leading-tight">Пряма доставка</p><p class="text-xs text-white/50 mt-0.5">Дбайливе пакування та швидка відправка</p></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== WHY TRUST (with counter animation) ===== -->
-  <section class="bg-brand-bg-alt/40 py-20 sm:py-28">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14 sm:mb-16 fade-up">
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Чому нам довіряють</h2>
-        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Ми ставимося до копчення як до ремесла. Кожна партія — результат ручної праці та багаторічного досвіду.</p>
-      </div>
-      <div class="grid md:grid-cols-3 gap-5 sm:gap-6">
-        <div class="card-glow bg-card rounded-2xl p-6 sm:p-8 border border-brand-border/60 hover:border-accent-red/20 transition-all duration-300 fade-up">
-          <div class="w-12 h-12 rounded-2xl bg-accent-red/10 flex items-center justify-center mb-5"><i class="fas fa-flask text-accent-red text-lg"></i></div>
-          <h3 class="text-lg font-bold mb-2.5">Без хімічної обробки</h3>
-          <p class="text-sm text-white/60 leading-relaxed">Жодного рідкого диму, підсилювачів смаку чи консервантів. Тільки якісна вільхова тріска та традиційні рецептури.</p>
+  <!-- ===== TRUST BAR WITH COUNTERS ===== -->
+  <section class="border-y border-brand-border/30 bg-brand-bg-alt/30">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
+        <div class="fade-up">
+          <p class="text-2xl sm:text-3xl font-extrabold text-accent-gold"><span class="counter-value" data-target="300">0</span>+</p>
+          <p class="text-xs sm:text-sm text-white/50 mt-1">щасливих клієнтів</p>
         </div>
-        <div class="card-glow bg-card rounded-2xl p-6 sm:p-8 border border-brand-border/60 hover:border-accent-red/20 transition-all duration-300 fade-up" style="transition-delay:0.1s">
-          <div class="w-12 h-12 rounded-2xl bg-accent-red/10 flex items-center justify-center mb-5"><i class="fas fa-weight-hanging text-accent-red text-lg"></i></div>
-          <h3 class="text-lg font-bold mb-2.5">Малі партії під замовлення</h3>
-          <p class="text-sm text-white/60 leading-relaxed">Не коптимо про запас. Кожна партія готується після отримання замовлення, щоб ви отримали максимально свіжий продукт.</p>
+        <div class="fade-up" style="transition-delay:0.08s">
+          <p class="text-2xl sm:text-3xl font-extrabold text-accent-gold"><span class="counter-value" data-target="800">0</span>+</p>
+          <p class="text-xs sm:text-sm text-white/50 mt-1">виконаних замовлень</p>
         </div>
-        <div class="card-glow bg-card rounded-2xl p-6 sm:p-8 border border-brand-border/60 hover:border-accent-red/20 transition-all duration-300 fade-up" style="transition-delay:0.2s">
-          <div class="w-12 h-12 rounded-2xl bg-accent-red/10 flex items-center justify-center mb-5"><i class="fas fa-shield-alt text-accent-red text-lg"></i></div>
-          <h3 class="text-lg font-bold mb-2.5">Контроль якості та доставка</h3>
-          <p class="text-sm text-white/60 leading-relaxed">Перевіряємо кожну партію перед відправкою. Використовуємо вакуумне пакування та термоконтейнери для збереження свіжості.</p>
+        <div class="fade-up" style="transition-delay:0.16s">
+          <p class="text-2xl sm:text-3xl font-extrabold text-accent-gold"><span class="counter-value" data-target="4">0</span></p>
+          <p class="text-xs sm:text-sm text-white/50 mt-1">роки коптимо</p>
+        </div>
+        <div class="fade-up" style="transition-delay:0.24s">
+          <p class="text-2xl sm:text-3xl font-extrabold text-accent-gold"><span class="counter-value" data-target="98">0</span>%</p>
+          <p class="text-xs sm:text-sm text-white/50 mt-1">задоволених клієнтів</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ===== CATALOG ===== -->
-  <section id="catalog" class="py-20 sm:py-28">
+  <section id="catalog" class="py-16 sm:py-20 lg:py-24">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12 sm:mb-14 fade-up">
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Каталог продукції</h2>
-        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Актуальный ассортимент и цены публикуются по мере готовности новых партий.</p>
+      <div class="text-center mb-10 sm:mb-12 fade-up">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Каталог продукції</h2>
+        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Усі позиції — дрібна партія. Актуальну наявність уточнюйте в Telegram.</p>
       </div>
-      <div id="categoryFilters" class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10 sm:mb-12 fade-up"></div>
-      <div id="catalogGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6"></div>
+      <div id="categoryFilters" class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10 fade-up"></div>
+      <div id="catalogGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"></div>
+    </div>
+  </section>
+
+  <!-- ===== WHY TRUST – FEAR → ANSWER ===== -->
+  <section class="py-14 sm:py-20" id="why-trust">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 sm:mb-12 fade-up">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Чому варто замовити в нас</h2>
+        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Не просто слова — кожен пункт це відповідь на ваші сумніви.</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-4 sm:gap-5">
+        <div class="bg-card/50 rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-accent-red/10 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-times-circle text-accent-red text-sm"></i></div>
+            <div>
+              <p class="text-xs text-white/40 mb-1">Боїтеся «магазинного» смаку з хімією</p>
+              <h3 class="text-base sm:text-lg font-bold mb-1.5">Тільки натуральне копчення на вільсі</h3>
+              <p class="text-sm text-white/60 leading-relaxed">Жодного рідкого диму, підсилювачів смаку чи консервантів. Тільки риба, сіль, спеції та вільхова тріска.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-card/50 rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up" style="transition-delay:0.08s">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-accent-red/10 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-box-open text-accent-red text-sm"></i></div>
+            <div>
+              <p class="text-xs text-white/40 mb-1">Хвилюєтеся, чи буде свіжим</p>
+              <h3 class="text-base sm:text-lg font-bold mb-1.5">Коптимо під замовлення — не складуємо</h3>
+              <p class="text-sm text-white/60 leading-relaxed">Кожна партія готується після отримання замовлення. Ви отримуєте продукт, який щойно з коптильні.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-card/50 rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up" style="transition-delay:0.16s">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-accent-red/10 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-truck text-accent-red text-sm"></i></div>
+            <div>
+              <p class="text-xs text-white/40 mb-1">Боїтеся, що зіпсується в дорозі</p>
+              <h3 class="text-base sm:text-lg font-bold mb-1.5">Вакуумне пакування + термоконтейнер</h3>
+              <p class="text-sm text-white/60 leading-relaxed">Пакуємо у вакуум і термоконтейнери. Продукт зберігає свіжість до 14 днів без втрати якості.</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-card/50 rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up" style="transition-delay:0.24s">
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 rounded-lg bg-accent-red/10 flex items-center justify-center shrink-0 mt-0.5"><i class="fas fa-calculator text-accent-red text-sm"></i></div>
+            <div>
+              <p class="text-xs text-white/40 mb-1">Не хочете сюрпризів у ціні</p>
+              <h3 class="text-base sm:text-lg font-bold mb-1.5">Чесна вага та прозрачна ціна</h3>
+              <p class="text-sm text-white/60 leading-relaxed">Погоджуємо точний вес та фінальну суму перед відправкою. Жодних прихованих платежів.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SCENARIOS: НЕ ЗНАЄТЕ ЩО ОБРАТИ? ===== -->
+  <section id="choose" class="bg-brand-bg-alt/30 py-14 sm:py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8 sm:mb-10 fade-up">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Не знаєте, що обрати?</h2>
+        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Оберіть свій сценарій — ми підкажемо, що підійде найкраще.</p>
+      </div>
+      <div id="scenarioFilters" class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 fade-up"></div>
+      <div id="scenarioGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"></div>
+    </div>
+  </section>
+
+  <!-- ===== CURATED SETS ===== -->
+  <section id="sets" class="py-14 sm:py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 sm:mb-12 fade-up">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Готові набори</h2>
+        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Вже продуманий склад — просто обирайте привід.</p>
+      </div>
+      <div id="setsGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5"></div>
     </div>
   </section>
 
   <!-- ===== GALLERY ===== -->
-  <section id="gallery" class="bg-brand-bg-alt/40 py-20 sm:py-28">
+  <section id="gallery" class="bg-brand-bg-alt/30 py-14 sm:py-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14 sm:mb-16 fade-up">
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Наша продукція в об'єктиві</h2>
-        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Кожне фото — це реальний продукт з нашої коптильні. Без фільтрів та обробки.</p>
+      <div class="text-center mb-10 sm:mb-12 fade-up">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Наша продукція в об'єктиві</h2>
+        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Реальні фото з коптильні. Без фільтрів та обробки.</p>
       </div>
-      <div id="galleryGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4"></div>
+      <div id="galleryGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3"></div>
     </div>
   </section>
 
   <!-- ===== PROCESS ===== -->
-  <section id="process" class="py-20 sm:py-28">
+  <section id="process" class="py-14 sm:py-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14 sm:mb-16 fade-up">
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Шлях продукту</h2>
+      <div class="text-center mb-10 sm:mb-12 fade-up">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Шлях продукту</h2>
         <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Від відбору сировини до вашого столу — кожен етап під контролем.</p>
       </div>
-      <div class="relative">
-        <div class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-accent-red/30 via-brand-border to-accent-red/30 -translate-x-1/2">
-          <div class="progress-line absolute top-0 left-0 w-full h-full bg-gradient-to-b from-accent-red/60 via-accent-red/30 to-accent-red/60" style="width:0%"></div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up">
+          <div class="w-10 h-10 rounded-lg bg-accent-red/10 flex items-center justify-center mb-4"><span class="text-accent-gold font-extrabold text-sm">01</span></div>
+          <h3 class="text-base sm:text-lg font-bold mb-2">Відбір сировини</h3>
+          <p class="text-sm text-white/60 leading-relaxed">Тільки перевірені постачальники. Риба проходить контроль свіжості перед засолом.</p>
         </div>
-        <div class="space-y-8 sm:space-y-0 relative">
-          <div class="flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12">
-            <div class="lg:w-1/2 lg:text-right lg:pr-12 slide-right">
-              <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-accent-red/10 text-accent-red font-bold text-sm mb-3 lg:hidden">01</div>
-              <h3 class="text-xl font-bold mb-2">Відбір сировини</h3>
-              <p class="text-sm text-white/60 leading-relaxed">Працюємо тільки з перевіреними постачальниками. Риба проходить контроль свіжості перед надходженням у засол.</p>
-            </div>
-            <div class="hidden lg:flex items-center justify-center w-12 h-12 rounded-full bg-card border-2 border-accent-red/30 text-accent-red font-bold text-sm shrink-0 relative z-10 scale-in">01</div>
-            <div class="lg:w-1/2 lg:pl-12 slide-left"><div class="lg:hidden h-px w-full bg-brand-border/60 my-2"></div></div>
-          </div>
-          <div class="flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12">
-            <div class="lg:w-1/2 lg:text-right lg:pr-12 order-2 lg:order-1 slide-right"><div class="lg:hidden h-px w-full bg-brand-border/60 my-2"></div></div>
-            <div class="hidden lg:flex items-center justify-center w-12 h-12 rounded-full bg-card border-2 border-accent-red/30 text-accent-red font-bold text-sm shrink-0 relative z-10 order-2 scale-in" style="transition-delay:0.1s">02</div>
-            <div class="lg:w-1/2 lg:pl-12 order-3 slide-left" style="transition-delay:0.1s">
-              <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-accent-red/10 text-accent-red font-bold text-sm mb-3 lg:hidden">02</div>
-              <h3 class="text-xl font-bold mb-2">Традиційний засол</h3>
-              <p class="text-sm text-white/60 leading-relaxed">Сухий засол за авторським рецептом. Без прискорювачів — тільки сіль, спеції та час.</p>
-            </div>
-          </div>
-          <div class="flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12">
-            <div class="lg:w-1/2 lg:text-right lg:pr-12 slide-right" style="transition-delay:0.2s">
-              <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-accent-red/10 text-accent-red font-bold text-sm mb-3 lg:hidden">03</div>
-              <h3 class="text-xl font-bold mb-2">Копчення на вільсі</h3>
-              <p class="text-sm text-white/60 leading-relaxed">Багатогодинне томління на натуральній вільховій трісці при строгому температурному режимі. Жодного рідкого диму.</p>
-            </div>
-            <div class="hidden lg:flex items-center justify-center w-12 h-12 rounded-full bg-card border-2 border-accent-red/30 text-accent-red font-bold text-sm shrink-0 relative z-10 scale-in" style="transition-delay:0.2s">03</div>
-            <div class="lg:w-1/2 lg:pl-12 slide-left" style="transition-delay:0.2s"><div class="lg:hidden h-px w-full bg-brand-border/60 my-2"></div></div>
-          </div>
-          <div class="flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-12">
-            <div class="lg:w-1/2 lg:text-right lg:pr-12 order-2 lg:order-1 slide-right"><div class="lg:hidden h-px w-full bg-brand-border/60 my-2"></div></div>
-            <div class="hidden lg:flex items-center justify-center w-12 h-12 rounded-full bg-card border-2 border-accent-red/30 text-accent-red font-bold text-sm shrink-0 relative z-10 order-2 scale-in" style="transition-delay:0.3s">04</div>
-            <div class="lg:w-1/2 lg:pl-12 order-3 slide-left" style="transition-delay:0.3s">
-              <div class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-accent-red/10 text-accent-red font-bold text-sm mb-3 lg:hidden">04</div>
-              <h3 class="text-xl font-bold mb-2">Контроль та пакування</h3>
-              <p class="text-sm text-white/60 leading-relaxed">Кожна партія проходить перевірку. Вакуумне пакування зберігає аромат і свіжість до моменту розкриття.</p>
-            </div>
-          </div>
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up" style="transition-delay:0.08s">
+          <div class="w-10 h-10 rounded-lg bg-accent-red/10 flex items-center justify-center mb-4"><span class="text-accent-gold font-extrabold text-sm">02</span></div>
+          <h3 class="text-base sm:text-lg font-bold mb-2">Традиційний засол</h3>
+          <p class="text-sm text-white/60 leading-relaxed">Сухий засол за авторським рецептом. Без прискорювачів — тільки сіль, спеції та час.</p>
+        </div>
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up" style="transition-delay:0.16s">
+          <div class="w-10 h-10 rounded-lg bg-accent-red/10 flex items-center justify-center mb-4"><span class="text-accent-gold font-extrabold text-sm">03</span></div>
+          <h3 class="text-base sm:text-lg font-bold mb-2">Копчення на вільсі</h3>
+          <p class="text-sm text-white/60 leading-relaxed">Багатогодинне томління на натуральній вільховій трісці. Жодного рідкого диму.</p>
+        </div>
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up" style="transition-delay:0.24s">
+          <div class="w-10 h-10 rounded-lg bg-accent-red/10 flex items-center justify-center mb-4"><span class="text-accent-gold font-extrabold text-sm">04</span></div>
+          <h3 class="text-base sm:text-lg font-bold mb-2">Контроль та пакування</h3>
+          <p class="text-sm text-white/60 leading-relaxed">Перевірка кожної партії. Вакуумне пакування зберігає аромат і свіжість до моменту розкриття.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== DELIVERY ===== -->
-  <section id="delivery" class="bg-brand-bg-alt/40 py-20 sm:py-28">
+  <!-- ===== HOW TO ORDER ===== -->
+  <section id="howtoorder" class="bg-brand-bg-alt/30 py-14 sm:py-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14 sm:mb-16 fade-up">
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Як оформити замовлення</h2>
-        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Усе просто: збираєте кошик на сайті, а фінальне оформлення відбувається в Telegram.</p>
+      <div class="text-center mb-10 sm:mb-12 fade-up">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Як замовити</h2>
+        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Усе просто. Збираєте кошик на сайті — оформлюєте в Telegram.</p>
       </div>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        <div class="card-glow bg-card rounded-2xl p-6 sm:p-7 border border-brand-border/60 text-center fade-up">
-          <div class="w-12 h-12 rounded-2xl bg-accent-red/10 flex items-center justify-center mx-auto mb-4"><span class="text-accent-gold font-extrabold text-lg">1</span></div>
-          <h3 class="font-bold mb-2">Оберіть товари</h3>
-          <p class="text-xs sm:text-sm text-white/60">Додайте позиції з каталогу в кошик, вкажіть кількість.</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 text-center fade-up">
+          <div class="w-11 h-11 rounded-xl bg-accent-red/10 flex items-center justify-center mx-auto mb-4"><span class="text-accent-gold font-extrabold text-lg">1</span></div>
+          <h3 class="font-bold mb-2 text-sm sm:text-base">Оберіть товари</h3>
+          <p class="text-xs sm:text-sm text-white/60">Додавайте позиції з каталогу в кошик, вказуйте кількість.</p>
         </div>
-        <div class="card-glow bg-card rounded-2xl p-6 sm:p-7 border border-brand-border/60 text-center fade-up" style="transition-delay:0.08s">
-          <div class="w-12 h-12 rounded-2xl bg-accent-red/10 flex items-center justify-center mx-auto mb-4"><span class="text-accent-gold font-extrabold text-lg">2</span></div>
-          <h3 class="font-bold mb-2">Заповніть дані</h3>
-          <p class="text-xs sm:text-sm text-white/60">Вкажіть ім'я, телефон та коментар до замовлення у формі кошика.</p>
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 text-center fade-up" style="transition-delay:0.08s">
+          <div class="w-11 h-11 rounded-xl bg-accent-red/10 flex items-center justify-center mx-auto mb-4"><span class="text-accent-gold font-extrabold text-lg">2</span></div>
+          <h3 class="font-bold mb-2 text-sm sm:text-base">Заповніть дані</h3>
+          <p class="text-xs sm:text-sm text-white/60">Ім'я, телефон та коментар — усе в формі кошика.</p>
         </div>
-        <div class="card-glow bg-card rounded-2xl p-6 sm:p-7 border border-brand-border/60 text-center fade-up" style="transition-delay:0.16s">
-          <div class="w-12 h-12 rounded-2xl bg-accent-red/10 flex items-center justify-center mx-auto mb-4"><span class="text-accent-gold font-extrabold text-lg">3</span></div>
-          <h3 class="font-bold mb-2">Надішліть замовлення</h3>
-          <p class="text-xs sm:text-sm text-white/60">Натисніть «Надіслати» — повідомлення із замовленням відкриється в Telegram.</p>
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 text-center fade-up" style="transition-delay:0.16s">
+          <div class="w-11 h-11 rounded-xl bg-accent-red/10 flex items-center justify-center mx-auto mb-4"><span class="text-accent-gold font-extrabold text-lg">3</span></div>
+          <h3 class="font-bold mb-2 text-sm sm:text-base">Надішліть у Telegram</h3>
+          <p class="text-xs sm:text-sm text-white/60">Натискаєте «Надіслати» — повідомлення готове. Залишилось тільки відправити.</p>
         </div>
-        <div class="card-glow bg-card rounded-2xl p-6 sm:p-7 border border-brand-border/60 text-center fade-up" style="transition-delay:0.24s">
-          <div class="w-12 h-12 rounded-2xl bg-accent-red/10 flex items-center justify-center mx-auto mb-4"><span class="text-accent-gold font-extrabold text-lg">4</span></div>
-          <h3 class="font-bold mb-2">Підтвердження</h3>
-          <p class="text-xs sm:text-sm text-white/60">Ми зв'яжемося з вами в Telegram, уточнимо деталі та підтвердимо замовлення.</p>
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 text-center fade-up" style="transition-delay:0.24s">
+          <div class="w-11 h-11 rounded-xl bg-accent-red/10 flex items-center justify-center mx-auto mb-4"><span class="text-accent-gold font-extrabold text-lg">4</span></div>
+          <h3 class="font-bold mb-2 text-sm sm:text-base">Підтвердження</h3>
+          <p class="text-xs sm:text-sm text-white/60">Ми відповімо в Telegram, уточнимо деталі, вагу та підтвердимо замовлення.</p>
         </div>
       </div>
-      <div class="mt-12 text-center fade-up">
-        <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link inline-flex items-center gap-2 px-6 py-3 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-2xl transition-all text-sm btn-scale">
-          <i class="fab fa-telegram-plane"></i>
-          <span>Відкрити Telegram-канал</span>
-        </a>
-        <p class="text-xs text-white/40 mt-3">Підпишіться, щоб першими дізнаватися про нові партії</p>
+      <div class="mt-8 text-center fade-up">
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-card/60 rounded-xl border border-brand-border/40 text-xs sm:text-sm text-white/60">
+          <i class="fab fa-telegram-plane text-accent-gold"></i>
+          <span>Чому Telegram? Тому що ми відповідаємо живою людиною, а не ботом. Погоджуємо вагу, дату доставки та відповідаємо на будь-які питання.</span>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ===== REVIEWS ===== -->
-  <section id="reviews" class="py-20 sm:py-28">
+  <section id="reviews" class="py-14 sm:py-20">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14 sm:mb-16 fade-up">
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Відгуки клієнтів</h2>
-        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Справжні відгуки з нашого Telegram-каналу. Скоро тут з'являться ваші!</p>
+      <div class="text-center mb-10 sm:mb-12 fade-up">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Відгуки клієнтів</h2>
+        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Справжні відгуки з Telegram-каналу.</p>
       </div>
-      <div class="grid sm:grid-cols-3 gap-5 sm:gap-6">
-        <div class="bg-card rounded-2xl p-6 sm:p-7 border border-brand-border/60 fade-up">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-accent-gold shrink-0"><i class="fas fa-user text-sm"></i></div>
-            <div><p class="text-sm font-semibold">Олексій</p><p class="text-xs text-white/40">підписник Telegram</p></div>
-            <div class="ml-auto text-accent-gold text-xs flex gap-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+      <div class="grid sm:grid-cols-3 gap-4 sm:gap-5">
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-full bg-amber-500/20 flex items-center justify-center text-accent-gold shrink-0"><i class="fas fa-user text-xs"></i></div>
+            <div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate">Олексій</p><p class="text-xs text-white/40">підписник Telegram</p></div>
+            <div class="text-accent-gold text-[10px] flex gap-0.5 shrink-0"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
           </div>
           <p class="text-sm text-white/60 leading-relaxed">Брав форель холодного копчення та скумбрію гарячого — все дуже свіже, смак неймовірний. Копчення на вільсі відчувається, не те що магазинний сурогат. Доставка в день копчення, запах у пакеті стояв божественний. Буду замовляти ще!</p>
         </div>
-        <div class="bg-card rounded-2xl p-6 sm:p-7 border border-brand-border/60 fade-up" style="transition-delay:0.08s">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-accent-gold shrink-0"><i class="fas fa-user text-sm"></i></div>
-            <div><p class="text-sm font-semibold">Наталія</p><p class="text-xs text-white/40">постійний клієнт</p></div>
-            <div class="ml-auto text-accent-gold text-xs flex gap-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up" style="transition-delay:0.08s">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-full bg-amber-500/20 flex items-center justify-center text-accent-gold shrink-0"><i class="fas fa-user text-xs"></i></div>
+            <div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate">Наталія</p><p class="text-xs text-white/40">постійний клієнт</p></div>
+            <div class="text-accent-gold text-[10px] flex gap-0.5 shrink-0"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
           </div>
-          <p class="text-sm text-white/60 leading-relaxed">Це вже третє замовлення за місяць. Сьомга слабосолона — просто бомба! Ніжна, тане в роті, нарізка гарна. Чоловік у захваті від балика з сома. Дякую за якість і швидку відправку. Раджу всім!</p>
+          <p class="text-sm text-white/60 leading-relaxed">Це вже третє замовлення за місяць. Сьомга слабосолона — просто бомба! Ніжна, тане в роті. Чоловік у захваті від балика з сома. Дякую за якість і швидку відправку. Раджу всім!</p>
         </div>
-        <div class="bg-card rounded-2xl p-6 sm:p-7 border border-brand-border/60 fade-up" style="transition-delay:0.16s">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-accent-gold shrink-0"><i class="fas fa-user text-sm"></i></div>
-            <div><p class="text-sm font-semibold">Дмитро</p><p class="text-xs text-white/40">з Telegram-каналу</p></div>
-            <div class="ml-auto text-accent-gold text-xs flex gap-0.5"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up" style="transition-delay:0.16s">
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-9 h-9 rounded-full bg-amber-500/20 flex items-center justify-center text-accent-gold shrink-0"><i class="fas fa-user text-xs"></i></div>
+            <div class="flex-1 min-w-0"><p class="text-sm font-semibold truncate">Дмитро</p><p class="text-xs text-white/40">з Telegram-каналу</p></div>
+            <div class="text-accent-gold text-[10px] flex gap-0.5 shrink-0"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
           </div>
           <p class="text-sm text-white/60 leading-relaxed">Судак холодного копчення — те, що я шукав. Щільне м'ясо, аромат справжнього димку, без хімії. Ідеально під пиво. Окреме спасибі за вакуумне пакування — дістав через тиждень, як свіженьке. Буду брати ще.</p>
         </div>
       </div>
-      <div class="text-center mt-10 fade-up">
-        <p class="text-sm text-white/60"><i class="fas fa-info-circle text-accent-gold mr-1.5"></i>Свої відгуки ви можете залишити в нашому <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link text-accent-gold hover:text-[#FFE44D] underline underline-offset-2">Telegram-каналі</a></p>
+      <div class="text-center mt-8 fade-up">
+        <p class="text-sm text-white/60"><i class="fas fa-info-circle text-accent-gold mr-1.5"></i>Свої відгуки залишайте в нашому <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link text-accent-gold hover:text-[#FFE44D] underline underline-offset-2">Telegram-каналі</a></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DELIVERY & PAYMENT ===== -->
+  <section id="delivery" class="bg-brand-bg-alt/30 py-14 sm:py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 sm:mb-12 fade-up">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Доставка та оплата</h2>
+        <p class="text-white/60 max-w-xl mx-auto text-sm sm:text-base">Прозорі умови без прихованих деталей.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4 sm:gap-5">
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up">
+          <div class="flex items-center gap-3 mb-3"><div class="w-9 h-9 rounded-lg bg-accent-red/10 flex items-center justify-center shrink-0"><i class="fas fa-box text-accent-red text-sm"></i></div><h3 class="font-bold text-sm sm:text-base">Як пакуємо</h3></div>
+          <p class="text-sm text-white/60 leading-relaxed">Вакуумне пакування + термоконтейнер. Продукт залишається свіжим до 14 днів. Усі замовлення відправляємо в день копчення або наступного дня.</p>
+        </div>
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up" style="transition-delay:0.08s">
+          <div class="flex items-center gap-3 mb-3"><div class="w-9 h-9 rounded-lg bg-accent-red/10 flex items-center justify-center shrink-0"><i class="fas fa-truck text-accent-red text-sm"></i></div><h3 class="font-bold text-sm sm:text-base">Способи доставки</h3></div>
+          <p class="text-sm text-white/60 leading-relaxed">Обговорюємо індивідуально при підтвердженні замовлення в Telegram. Працюємо з перевізниками, які забезпечують швидку та дбайливу доставку.</p>
+        </div>
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up" style="transition-delay:0.16s">
+          <div class="flex items-center gap-3 mb-3"><div class="w-9 h-9 rounded-lg bg-accent-red/10 flex items-center justify-center shrink-0"><i class="fas fa-calculator text-accent-red text-sm"></i></div><h3 class="font-bold text-sm sm:text-base">Як формується ціна</h3></div>
+          <p class="text-sm text-white/60 leading-relaxed">Ціна вказана за кг. Фактичний вес кожної позиції може незначно відрізнятися. Ми завжди погоджуємо точну вагу та фінальну суму перед відправкою.</p>
+        </div>
+        <div class="bg-card rounded-xl p-5 sm:p-6 border border-brand-border/40 fade-up" style="transition-delay:0.24s">
+          <div class="flex items-center gap-3 mb-3"><div class="w-9 h-9 rounded-lg bg-accent-red/10 flex items-center justify-center shrink-0"><i class="fas fa-credit-card text-accent-red text-sm"></i></div><h3 class="font-bold text-sm sm:text-base">Оплата</h3></div>
+          <p class="text-sm text-white/60 leading-relaxed">Обговорюємо індивідуально. Ми працюємо чесно та прозоро — ніяких передоплат без підтвердження замовлення.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ===== FAQ ===== -->
-  <section id="faq" class="bg-brand-bg-alt/40 py-20 sm:py-28">
+  <section id="faq" class="py-14 sm:py-20">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14 sm:mb-16 fade-up">
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-4">Часті запитання</h2>
+      <div class="text-center mb-10 sm:mb-12 fade-up">
+        <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Часті запитання</h2>
         <p class="text-white/60 text-sm sm:text-base">Якщо не знайшли відповідь — напишіть нам у Telegram.</p>
       </div>
       <div class="space-y-3" id="faqContainer">
-        <div class="bg-card rounded-2xl border border-brand-border/60 overflow-hidden fade-up">
-          <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left text-sm sm:text-base font-medium hover:bg-brand-border/30 transition-colors" aria-expanded="false">
-            <span>Як дізнатися актуальну наявність товарів?</span>
-            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs"></i>
+        <div class="bg-card rounded-xl border border-brand-border/40 overflow-hidden fade-up">
+          <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm sm:text-base font-medium hover:bg-brand-border/20 transition-colors" aria-expanded="false">
+            <span>Як дізнатися актуальну наявність?</span>
+            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs transition-transform duration-300"></i>
           </button>
-          <div class="faq-answer"><div><div class="px-6 pb-5 text-sm text-white/60 leading-relaxed">Актуальный ассортимент публикуется в нашем Telegram-каналі. Если товара нет в каталоге на сайте — значит, он временно недоступен. Подпишитесь на канал, чтобы не пропустить появление новых партий.</div></div></div>
+          <div class="faq-answer"><div><div class="px-5 pb-4 text-sm text-white/60 leading-relaxed">Актуальний асортимент публікуємо в <a href="" class="js-tg-link text-accent-gold underline underline-offset-2">Telegram-каналі</a>. Якщо товару немає в каталозі на сайті — значить він тимчасово недоступний. Підпишіться, щоб не пропустити нові партії.</div></div></div>
         </div>
-        <div class="bg-card rounded-2xl border border-brand-border/60 overflow-hidden fade-up" style="transition-delay:0.06s">
-          <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left text-sm sm:text-base font-medium hover:bg-brand-border/30 transition-colors" aria-expanded="false">
+        <div class="bg-card rounded-xl border border-brand-border/40 overflow-hidden fade-up" style="transition-delay:0.05s">
+          <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm sm:text-base font-medium hover:bg-brand-border/20 transition-colors" aria-expanded="false">
             <span>Як розраховується вага та ціна?</span>
-            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs"></i>
+            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs transition-transform duration-300"></i>
           </button>
-          <div class="faq-answer"><div><div class="px-6 pb-5 text-sm text-white/60 leading-relaxed">Цена указана за килограмм, если не указано иное. Фактический вес каждой единицы может незначительно отличаться от заявленного. Итоговая стоимость рассчитывается после взвешивания перед отправкой. Мы всегда согласовываем точный вес с вами в Telegram.</div></div></div>
+          <div class="faq-answer"><div><div class="px-5 pb-4 text-sm text-white/60 leading-relaxed">Ціна вказана за кг. Фактичний вес може незначно відрізнятися від заявленого. Підсумкова вартість розраховується після зважування перед відправкою. Ми завжди погоджуємо точний вес із вами в Telegram.</div></div></div>
         </div>
-        <div class="bg-card rounded-2xl border border-brand-border/60 overflow-hidden fade-up" style="transition-delay:0.12s">
-          <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left text-sm sm:text-base font-medium hover:bg-brand-border/30 transition-colors" aria-expanded="false">
+        <div class="bg-card rounded-xl border border-brand-border/40 overflow-hidden fade-up" style="transition-delay:0.1s">
+          <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm sm:text-base font-medium hover:bg-brand-border/20 transition-colors" aria-expanded="false">
             <span>Як відбувається доставка?</span>
-            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs"></i>
+            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs transition-transform duration-300"></i>
           </button>
-          <div class="faq-answer"><div><div class="px-6 pb-5 text-sm text-white/60 leading-relaxed">Доставка осуществляется в вакуумной упаковке с использованием термоконтейнеров. Мы отправляем заказы в день копчения или на следующий день. Способы и стоимость доставки обсуждаются индивидуально при подтверждении заказа в Telegram.</div></div></div>
+          <div class="faq-answer"><div><div class="px-5 pb-4 text-sm text-white/60 leading-relaxed">Відправляємо у вакуумній упаковці з термоконтейнерами в день копчення або наступного. Спосіб та вартість обговорюємо індивідуально при підтвердженні.</div></div></div>
         </div>
-        <div class="bg-card rounded-2xl border border-brand-border/60 overflow-hidden fade-up" style="transition-delay:0.18s">
-          <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left text-sm sm:text-base font-medium hover:bg-brand-border/30 transition-colors" aria-expanded="false">
-            <span>Чи можна оформити замовлення напряму через Telegram?</span>
-            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs"></i>
+        <div class="bg-card rounded-xl border border-brand-border/40 overflow-hidden fade-up" style="transition-delay:0.15s">
+          <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm sm:text-base font-medium hover:bg-brand-border/20 transition-colors" aria-expanded="false">
+            <span>Чи можна оформити замовлення напряму в Telegram?</span>
+            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs transition-transform duration-300"></i>
           </button>
-          <div class="faq-answer"><div><div class="px-6 pb-5 text-sm text-white/60 leading-relaxed">Да, конечно! Вы можете написать нам в Telegram напрямую. Используйте кнопку «Оформить в Telegram» на сайте или просто напишите в наш канал. Мы примем заказ, уточним детали и согласуем доставку.</div></div></div>
+          <div class="faq-answer"><div><div class="px-5 pb-4 text-sm text-white/60 leading-relaxed">Так, звісно! Просто напишіть у наш <a href="" class="js-tg-link text-accent-gold underline underline-offset-2">Telegram-канал</a> або використовуйте кнопку «Оформити в Telegram» на сайті. Ми приймемо замовлення, уточнимо деталі та погодимо доставку.</div></div></div>
         </div>
-        <div class="bg-card rounded-2xl border border-brand-border/60 overflow-hidden fade-up" style="transition-delay:0.24s">
-          <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left text-sm sm:text-base font-medium hover:bg-brand-border/30 transition-colors" aria-expanded="false">
+        <div class="bg-card rounded-xl border border-brand-border/40 overflow-hidden fade-up" style="transition-delay:0.2s">
+          <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm sm:text-base font-medium hover:bg-brand-border/20 transition-colors" aria-expanded="false">
             <span>Як зберігати копчену рибу?</span>
-            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs"></i>
+            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs transition-transform duration-300"></i>
           </button>
-          <div class="faq-answer"><div><div class="px-6 pb-5 text-sm text-white/60 leading-relaxed">Храните продукт в холодильнике при температуре от 0 до +4 °C. В вакуумной упаковке срок хранения составляет до 14 дней. После вскрытия рекомендуется употребить в течение 2–3 дней. Заморозка допускается, но мы советуем есть свежекопчёным.</div></div></div>
+          <div class="faq-answer"><div><div class="px-5 pb-4 text-sm text-white/60 leading-relaxed">У холодильнику при 0…+4 °C. У вакуумній упаковці — до 14 днів. Після розкриття бажано вжити за 2–3 дні. Заморозка допускається, але рекомендуємо їсти свіжокопченим.</div></div></div>
+        </div>
+        <div class="bg-card rounded-xl border border-brand-border/40 overflow-hidden fade-up" style="transition-delay:0.25s">
+          <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm sm:text-base font-medium hover:bg-brand-border/20 transition-colors" aria-expanded="false">
+            <span>Чим відрізняється гаряче та холодне копчення?</span>
+            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer"><div><div class="px-5 pb-4 text-sm text-white/60 leading-relaxed">Гаряче копчення — соковите, ніжне м'ясо з насиченим копченим смаком. Холодне — щільніша текстура, делікатний димний аромат, довше зберігається. Обидва способи натуральні, без хімії.</div></div></div>
+        </div>
+        <div class="bg-card rounded-xl border border-brand-border/40 overflow-hidden fade-up" style="transition-delay:0.3s">
+          <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm sm:text-base font-medium hover:bg-brand-border/20 transition-colors" aria-expanded="false">
+            <span>Чи можна замовити на подарунок?</span>
+            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer"><div><div class="px-5 pb-4 text-sm text-white/60 leading-relaxed">Звісно! Вакуумне пакування дає змогу акуратно упакувати подарунок. Обговоріть деталі в Telegram — підберемо склад і оформлення.</div></div></div>
+        </div>
+        <div class="bg-card rounded-xl border border-brand-border/40 overflow-hidden fade-up" style="transition-delay:0.35s">
+          <button class="faq-question w-full flex items-center justify-between px-5 py-4 text-left text-sm sm:text-base font-medium hover:bg-brand-border/20 transition-colors" aria-expanded="false">
+            <span>Не знаю, що вибрати — допоможете?</span>
+            <i class="faq-arrow fas fa-chevron-down text-white/40 text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer"><div><div class="px-5 pb-4 text-sm text-white/60 leading-relaxed">Так! Напишіть у Telegram, розкажіть, для якого випадку підбираєте — і ми порадимо найкращий варіант. Або скористайтесь блоком «Не знаєте, що обрати?» на цій сторінці.</div></div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== TELEGRAM CTA ===== -->
-  <section class="bg-brand-bg-alt/40 py-16 sm:py-20">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-up">
-      <div class="w-16 h-16 rounded-2xl bg-accent-red/10 flex items-center justify-center mx-auto mb-5"><i class="fab fa-telegram-plane text-2xl text-accent-red"></i></div>
-      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight mb-3">Хочете бачити повний асортимент?</h2>
-      <p class="text-sm sm:text-base text-white/60 max-w-lg mx-auto mb-6">Новые позиции и ограниченные партии публикуются в Telegram-каналі. Подпишитесь, чтобы не пропустить свежую партию.</p>
-      <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link inline-flex items-center gap-2 px-7 py-3.5 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-2xl transition-all text-sm shadow-lg shadow-accent-red/20 btn-scale">
-        <i class="fab fa-telegram-plane"></i>
-        <span>Відкрити Telegram-канал</span>
-        <i class="fas fa-arrow-right text-xs"></i>
-      </a>
+  <!-- ===== FINAL CTA ===== -->
+  <section class="bg-brand-bg-alt/40 py-14 sm:py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-up">
+      <div class="w-14 h-14 rounded-2xl bg-accent-red/10 flex items-center justify-center mx-auto mb-5"><i class="fab fa-telegram-plane text-2xl text-accent-red"></i></div>
+      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight mb-3">Готові спробувати?</h2>
+      <p class="text-sm sm:text-base text-white/60 max-w-lg mx-auto mb-6">Обмежені партії розлітаються швидко. Якщо сьогодні є в каталозі — завтра може вже не бути.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="#catalog" class="w-full sm:w-auto px-6 py-3 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-2xl transition-all text-sm shadow-lg shadow-accent-red/20 btn-scale text-center">
+          <i class="fas fa-eye mr-2"></i>Обрати в каталозі
+        </a>
+        <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link w-full sm:w-auto px-6 py-3 border border-brand-border-light hover:border-accent-red/50 text-white font-semibold rounded-2xl transition-all text-sm hover:bg-brand-card/80 btn-scale text-center">
+          <i class="fab fa-telegram-plane mr-2"></i>Написати в Telegram
+        </a>
+      </div>
+      <p class="text-xs text-white/40 mt-4">Для себе, на свято, в подарунок або для компанії</p>
     </div>
   </section>
 
   <!-- ===== FOOTER ===== -->
-  <footer class="bg-brand-bg border-t border-brand-border py-10 sm:py-14">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-        <a href="#" class="flex items-center gap-2.5 group">
-          <i class="fas fa-fish text-xl text-accent-gold group-hover:text-[#FFE44D] transition-colors"></i>
-          <span class="text-base sm:text-lg font-bold tracking-tight">SmokeFishBarn</span>
-        </a>
-        <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link flex items-center gap-2 px-4 py-2 bg-card hover:bg-brand-card-hover text-white/70 hover:text-white rounded-xl transition-all text-sm">
-          <i class="fab fa-telegram-plane text-accent-gold"></i>
-          <span>Telegram-канал</span>
-        </a>
+  <footer class="bg-brand-bg border-t border-brand-border/60">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <div class="grid sm:grid-cols-3 gap-6 sm:gap-8">
+        <div class="fade-up">
+          <a href="#" class="flex items-center gap-2 group mb-3">
+            <span class="fish-container">
+              <i class="fas fa-hook hook-icon"></i>
+              <i class="fas fa-fish text-lg text-accent-gold swim"></i>
+            </span>
+            <span class="text-base sm:text-lg font-bold tracking-tight">SmokeFishBarn</span>
+          </a>
+          <p class="text-xs text-white/40 leading-relaxed">Крафтові рибні делікатеси з коптильні. Натуральне копчення на вільховій трісці малими партіями під замовлення.</p>
+        </div>
+        <div class="fade-up" style="transition-delay:0.08s">
+          <h4 class="text-sm font-semibold text-white/60 mb-3">Навігація</h4>
+          <nav class="flex flex-col gap-2 text-sm">
+            <a href="#catalog" class="text-white/50 hover:text-white transition-colors">Каталог</a>
+            <a href="#sets" class="text-white/50 hover:text-white transition-colors">Набори</a>
+            <a href="#howtoorder" class="text-white/50 hover:text-white transition-colors">Як замовити</a>
+            <a href="#faq" class="text-white/50 hover:text-white transition-colors">FAQ</a>
+          </nav>
+        </div>
+        <div class="fade-up" style="transition-delay:0.16s">
+          <h4 class="text-sm font-semibold text-white/60 mb-3">Контакти</h4>
+          <div class="flex flex-col gap-2 text-sm">
+            <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link flex items-center gap-2 text-white/50 hover:text-accent-gold transition-colors"><i class="fab fa-telegram-plane text-accent-gold"></i>Telegram-канал</a>
+            <span class="text-white/40 text-xs">Відповідаємо щодня<br>9:00–21:00</span>
+            <span class="text-white/40 text-xs">Доставка по всій Україні</span>
+          </div>
+        </div>
       </div>
-      <hr class="border-brand-border mb-6">
-      <div class="text-center text-xs text-white/40 leading-relaxed space-y-1.5">
+      <hr class="border-brand-border/40 my-6">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/40">
         <p>Вага товарів може незначно відрізнятися від заявленої. Актуальну наявність уточнюйте в Telegram.</p>
-        <p>© 2026 SmokeFishBarn. Усі права захищені.</p>
+        <p>&copy; 2026 SmokeFishBarn. Усі права захищені.</p>
       </div>
     </div>
   </footer>
@@ -520,27 +655,27 @@
   <!-- ===== CART ===== -->
   <div id="cartOverlay" class="fixed inset-0 z-50 opacity-0 pointer-events-none cart-overlay bg-brand-bg/70 backdrop-blur-sm" aria-hidden="true"></div>
   <div id="cartPanel" class="fixed top-0 right-0 z-50 h-full w-full sm:w-[420px] bg-brand-card border-l border-brand-border transform translate-x-full cart-panel shadow-2xl flex flex-col">
-    <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-brand-border shrink-0">
-      <h2 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-shopping-bag text-accent-gold text-base"></i> Кошик <span id="cartTitleCount" class="text-sm font-normal text-white/60"></span></h2>
-      <button id="cartCloseBtn" class="p-2 text-white/60 hover:text-white transition-colors rounded-xl hover:bg-brand-border/50" aria-label="Закрити кошик"><i class="fas fa-times"></i></button>
+    <div class="flex items-center justify-between px-4 sm:px-5 py-3.5 border-b border-brand-border shrink-0">
+      <h2 class="text-base sm:text-lg font-bold flex items-center gap-2"><i class="fas fa-shopping-bag text-accent-gold"></i> Кошик <span id="cartTitleCount" class="text-sm font-normal text-white/60"></span></h2>
+      <button id="cartCloseBtn" class="p-1.5 text-white/60 hover:text-white transition-colors rounded-lg hover:bg-brand-border/50" aria-label="Закрити кошик"><i class="fas fa-times"></i></button>
     </div>
-    <div id="cartItems" class="flex-1 overflow-y-auto px-5 sm:px-6 py-4 space-y-3">
+    <div id="cartItems" class="flex-1 overflow-y-auto px-4 sm:px-5 py-3 space-y-2.5">
       <div class="flex flex-col items-center justify-center h-full text-center text-white/40">
-        <i class="fas fa-shopping-bag text-4xl mb-3 opacity-30"></i>
-        <p class="text-sm font-medium">Кошик пуста</p>
-        <p class="text-xs mt-1">Добавьте товары из каталога</p>
+        <i class="fas fa-shopping-bag text-3xl mb-2.5 opacity-30"></i>
+        <p class="text-sm font-medium">Кошик порожній</p>
+        <p class="text-xs mt-1">Додайте товари з каталогу</p>
       </div>
     </div>
-    <div id="cartFooter" class="hidden border-t border-brand-border px-5 sm:px-6 py-4 sm:py-5 shrink-0">
-      <div class="flex items-center justify-between mb-4"><span class="text-sm text-white/60">Разом:</span><span id="cartTotal" class="text-xl font-bold text-accent-gold">0 ₽</span></div>
-      <div class="space-y-2.5 mb-4">
-        <input id="orderName" type="text" placeholder="Ваше ім'я" class="w-full px-4 py-2.5 bg-brand-border/50 border border-brand-border-light rounded-xl text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-red/50 transition-colors" autocomplete="name">
-        <input id="orderPhone" type="tel" placeholder="Номер телефону" class="w-full px-4 py-2.5 bg-brand-border/50 border border-brand-border-light rounded-xl text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-red/50 transition-colors" autocomplete="tel">
-        <textarea id="orderComment" rows="2" placeholder="Коментар до замовлення (необов'язково)" class="w-full px-4 py-2.5 bg-brand-border/50 border border-brand-border-light rounded-xl text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-red/50 transition-colors resize-none"></textarea>
+    <div id="cartFooter" class="hidden border-t border-brand-border px-4 sm:px-5 py-3.5 sm:py-4 shrink-0">
+      <div class="flex items-center justify-between mb-3"><span class="text-sm text-white/60">Разом:</span><span id="cartTotal" class="text-lg sm:text-xl font-bold text-accent-gold">0 ₴</span></div>
+      <div class="space-y-2 mb-3">
+        <input id="orderName" type="text" placeholder="Ваше ім'я" class="w-full px-3.5 py-2 bg-brand-border/50 border border-brand-border-light rounded-lg text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-red/50 transition-colors" autocomplete="name">
+        <input id="orderPhone" type="tel" placeholder="Номер телефону" class="w-full px-3.5 py-2 bg-brand-border/50 border border-brand-border-light rounded-lg text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-red/50 transition-colors" autocomplete="tel">
+        <textarea id="orderComment" rows="2" placeholder="Коментар до замовлення (необов'язково)" class="w-full px-3.5 py-2 bg-brand-border/50 border border-brand-border-light rounded-lg text-sm text-white placeholder-white/40 focus:outline-none focus:border-accent-red/50 transition-colors resize-none"></textarea>
       </div>
-      <button id="orderSubmitBtn" class="w-full px-5 py-3 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-xl transition-all text-sm flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed btn-scale">
+      <button id="orderSubmitBtn" class="w-full px-4 py-2.5 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-xl transition-all text-sm flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed btn-scale">
         <i class="fab fa-telegram-plane"></i>
-        <span>Надіслати замовлення в Telegram</span>
+        <span>Надіслати в Telegram</span>
       </button>
     </div>
   </div>
@@ -548,115 +683,164 @@
   <!-- ===== TOAST ===== -->
   <div id="toastContainer" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2 pointer-events-none"></div>
 
+  <!-- ===== STICKY MOBILE CTA ===== -->
+  <div id="stickyMobileCta" class="fixed bottom-0 left-0 right-0 z-40 bg-brand-bg/90 backdrop-blur-md border-t border-brand-border/50 lg:hidden px-4 py-2.5">
+    <div class="flex items-center gap-2">
+      <a href="#catalog" class="flex-1 px-3 py-2 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-xl transition-all text-xs text-center">Каталог</a>
+      <a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link flex-1 px-3 py-2 border border-brand-border-light text-white font-semibold rounded-xl transition-all text-xs text-center hover:bg-brand-card/80">Telegram</a>
+    </div>
+  </div>
+
   <script>
     // ================================================================
     //  CONFIG
     // ================================================================
-    const TG_USERNAME = 'SmokeFishBarn';
-    const TG_LINK = 'https://t.me/' + TG_USERNAME;
+    var TG_USERNAME = 'SmokeFishBarn';
+    var TG_LINK = 'https://t.me/' + TG_USERNAME;
 
     // ================================================================
     //  PRODUCTS DATA
     // ================================================================
     var IMG = function(n) { return 'photo_' + n + '_2026-06-09_17-49-36.jpg'; };
+    var IMG05 = function(n) { return 'photo_' + n + '_2026-06-09_17-49-05.jpg'; };
 
-    const PRODUCTSDATA = [
+    var PRODUCTSDATA = [
       {
-        id: 'forel-holod',
-        title: 'Форель холодного копчення',
-        category: 'Холодне копчення',
-        price: 1950,
-        unit: 'кг',
-        weightEstimate: '1.2–1.6 кг',
+        id: 'forel-holod', title: 'Форель холодного копчення', category: 'Холодне копчення',
+        price: 1950, unit: 'кг', weightEstimate: '1.2–1.6 кг',
         description: 'Ніжне філе слабкого соління, підкопчене на натуральній вільховій трісці. Золотиста скоринка, тонкий димний аромат.',
-        imageUrl: IMG(5),
-        isAvailable: true
+        imageUrl: IMG(5), isAvailable: true,
+        badge: 'Хіт продажів', badgeClass: 'badge-hit',
+        useCase: 'До святкового столу', pairing: 'До білого вина, свіжих овочів',
+        note: 'Ідеально для першого знайомства з нашою продукцією',
+        lowEstimate: 2340, highEstimate: 3120
       },
       {
-        id: 'skumbria-goryach',
-        title: 'Скумбрия гарячого копчення',
-        category: 'Гаряче копчення',
-        price: 850,
-        unit: 'кг',
-        weightEstimate: '0.4–0.6 кг',
-        description: 'Жирна скумбрія, копчена при високій температурі. М\u2019ясо соковите, ніжне, з насиченим копченим смаком.',
-        imageUrl: IMG(6),
-        isAvailable: true
+        id: 'skumbria-goryach', title: 'Скумбрія гарячого копчення', category: 'Гаряче копчення',
+        price: 850, unit: 'кг', weightEstimate: '0.4–0.6 кг',
+        description: 'Жирна скумбрія, копчена при високій температурі. М\'ясо соковите, ніжне, з насиченим копченим смаком.',
+        imageUrl: IMG(6), isAvailable: true,
+        badge: 'До пива', badgeClass: 'badge-beer',
+        useCase: 'До пива', pairing: 'До темного пива, цибулевих кілець',
+        note: 'Найпопулярніша позиція серед поціновувачів',
+        lowEstimate: 340, highEstimate: 510
       },
       {
-        id: 'semga-slabsol',
-        title: 'Сьомга слабосолона',
-        category: 'Слабосолона',
-        price: 2200,
-        unit: 'кг',
-        weightEstimate: '1.0–1.4 кг',
-        description: 'Норвезька сьомга власного засолу. М\u2019який смак, таюча текстура, благородний колір.',
-        imageUrl: IMG(7),
-        isAvailable: true
+        id: 'semga-slabsol', title: 'Сьомга слабосолона', category: 'Слабосолона',
+        price: 2200, unit: 'кг', weightEstimate: '1.0–1.4 кг',
+        description: 'Норвезька сьомга власного засолу. М\'який смак, таюча текстура, благородний колір.',
+        imageUrl: IMG(7), isAvailable: true,
+        badge: 'Ніжний смак', badgeClass: 'badge-tender',
+        useCase: 'Для першого знайомства', pairing: 'До шампанського, млинців, канапок',
+        note: 'Хіт подарункових наборів',
+        lowEstimate: 2200, highEstimate: 3080
       },
       {
-        id: 'sudak-holod',
-        title: 'Судак холодного копчення',
-        category: 'Холодне копчення',
-        price: 1400,
-        unit: 'кг',
-        weightEstimate: '0.8–1.2 кг',
-        description: 'Щільне, шарувате м\u2019ясо судака з делікатним димним ароматом. Ідеально до пива та закусок.',
-        imageUrl: IMG(8),
-        isAvailable: true
+        id: 'sudak-holod', title: 'Судак холодного копчення', category: 'Холодне копчення',
+        price: 1400, unit: 'кг', weightEstimate: '0.8–1.2 кг',
+        description: 'Щільне, шарувате м\'ясо судака з делікатним димним ароматом. Ідеально до пива та закусок.',
+        imageUrl: IMG(8), isAvailable: true,
+        badge: 'До святкового столу', badgeClass: 'badge-holiday',
+        useCase: 'До святкового столу', pairing: 'До пива, білого вина',
+        note: 'Довго зберігається завдяки холодному копченню',
+        lowEstimate: 1120, highEstimate: 1680
       },
       {
-        id: 'balyk-som',
-        title: 'Балик із сома гарячого копчення',
-        category: 'Гаряче копчення',
-        price: 1200,
-        unit: 'кг',
-        weightEstimate: '0.6–1.0 кг',
-        description: 'Жирний та соковитий балик із сома. Найніжніше м\u2019ясо з характерним копченим смаком.',
-        imageUrl: IMG(9),
-        isAvailable: true
+        id: 'balyk-som', title: 'Балик із сома гарячого копчення', category: 'Гаряче копчення',
+        price: 1200, unit: 'кг', weightEstimate: '0.6–1.0 кг',
+        description: 'Жирний та соковитий балик із сома. Найніжніше м\'ясо з характерним копченим смаком.',
+        imageUrl: IMG(9), isAvailable: true,
+        badge: 'Для першого знайомства', badgeClass: 'badge-first',
+        useCase: 'Для компанії', pairing: 'До пива, горілки, закусок',
+        note: 'Чудовий вибір для великої компанії',
+        lowEstimate: 720, highEstimate: 1200
       },
       {
-        id: 'maslyanaya',
-        title: 'Масляна риба холодного копчення',
-        category: 'Холодне копчення',
-        price: 1600,
-        unit: 'кг',
-        weightEstimate: '0.5–0.8 кг',
+        id: 'maslyanaya', title: 'Масляна риба холодного копчення', category: 'Холодне копчення',
+        price: 1600, unit: 'кг', weightEstimate: '0.5–0.8 кг',
         description: 'Ніжна масляниста текстура, делікатний смак з легкими нотками диму. Тануть у роті.',
-        imageUrl: IMG(10),
-        isAvailable: true
+        imageUrl: IMG(10), isAvailable: true,
+        badge: 'Обмежена партія', badgeClass: 'badge-limited',
+        useCase: 'На подарунок', pairing: 'До білого вина, фруктів',
+        note: 'З\'являється рідко — беріть, поки є',
+        lowEstimate: 800, highEstimate: 1280
       }
     ];
 
     // ================================================================
-    //  GALLERY IMAGES
+    //  SCENARIOS
     // ================================================================
+    var SCENARIOS = [
+      { key: 'all', label: 'Усі', icon: 'fa-th-large' },
+      { key: 'first', label: 'Для першого знайомства', icon: 'fa-star' },
+      { key: 'holiday', label: 'До святкового столу', icon: 'fa-glass-cheers' },
+      { key: 'beer', label: 'До пива', icon: 'fa-beer' },
+      { key: 'gift', label: 'На подарунок', icon: 'fa-gift' },
+      { key: 'company', label: 'Для компанії', icon: 'fa-users' }
+    ];
+
+    // ================================================================
+    //  SETS DATA
+    // ================================================================
+    var SETSDATA = [
+      {
+        id: 'set-first', title: 'Для першого знайомства',
+        items: ['Сьомга слабосолона', 'Балик із сома'],
+        price: 'від 2 920 ₴', description: 'Дві культові позиції, які дають повне уявлення про наш підхід. Сьомга — ніжна, балик — соковитий.',
+        imageIdx: 0, icon: 'fa-star'
+      },
+      {
+        id: 'set-holiday', title: 'До святкового столу',
+        items: ['Форель холодного копчення', 'Сьомга слабосолона', 'Судак холодного копчення'],
+        price: 'від 5 400 ₴', description: 'Набір для особливого випадку. Три різні текстури, три смаки — ваша вечеря запам\'ятається.',
+        imageIdx: 1, icon: 'fa-glass-cheers'
+      },
+      {
+        id: 'set-beer', title: 'Пивний набір',
+        items: ['Скумбрія гарячого копчення', 'Судак холодного копчення'],
+        price: 'від 1 460 ₴', description: 'Ідеальна пара до улюбленого пива. Скумбрія — класика, судак — для поціновувачів.',
+        imageIdx: 2, icon: 'fa-beer'
+      },
+      {
+        id: 'set-gift', title: 'Подарунковий набір',
+        items: ['Сьомга слабосолона', 'Масляна риба холодного копчення', 'Форель холодного копчення'],
+        price: 'від 5 150 ₴', description: 'Розкішний набір у вакуумній упаковці. Готовий подарунок для тих, хто цінує якість.',
+        imageIdx: 3, icon: 'fa-gift'
+      }
+    ];
+
+    // a few distinct gallery images for visual variety
     var GALLERY_IMAGES = [
-      'photo_9_2026-06-09_17-49-05.jpg',
-      'photo_10_2026-06-09_17-49-05.jpg',
-      'photo_11_2026-06-09_17-49-05.jpg',
-      'photo_12_2026-06-09_17-49-05.jpg',
-      'photo_13_2026-06-09_17-49-05.jpg',
-      'photo_8_2026-06-09_17-49-05.jpg'
+      { src: 'photo_9_2026-06-09_17-49-05.jpg', aspect: 'aspect-[3/4]' },
+      { src: 'photo_10_2026-06-09_17-49-05.jpg', aspect: 'aspect-[4/3]' },
+      { src: 'photo_11_2026-06-09_17-49-05.jpg', aspect: 'aspect-[3/4]' },
+      { src: 'photo_12_2026-06-09_17-49-05.jpg', aspect: 'aspect-[4/3]' },
+      { src: 'photo_13_2026-06-09_17-49-05.jpg', aspect: 'aspect-[3/4]' },
+      { src: 'photo_8_2026-06-09_17-49-05.jpg', aspect: 'aspect-[4/3]' },
+      { src: 'photo_5_2026-06-09_17-49-05.jpg', aspect: 'aspect-[3/4]' },
+      { src: 'photo_6_2026-06-09_17-49-05.jpg', aspect: 'aspect-[1/1]' }
     ];
 
     // ================================================================
     //  STATE
     // ================================================================
-    let cart = [];
-    let currentCategory = 'Усі';
+    var cart = [];
+    var currentCategory = 'Усі';
+    var currentScenario = 'all';
 
     // ================================================================
     //  DOM REFS
     // ================================================================
-    const $ = function(s, c) { return (c || document).querySelector(s); };
-    const $$ = function(s, c) { return Array.from((c || document).querySelectorAll(s)); };
+    var $ = function(s, c) { return (c || document).querySelector(s); };
+    var $$ = function(s, c) { return Array.from((c || document).querySelectorAll(s)); };
 
     var header = $('#header');
     var catalogGrid = $('#catalogGrid');
     var categoryFilters = $('#categoryFilters');
     var galleryGrid = $('#galleryGrid');
+    var scenarioFilters = $('#scenarioFilters');
+    var scenarioGrid = $('#scenarioGrid');
+    var setsGrid = $('#setsGrid');
     var cartBtn = $('#cartBtn');
     var cartBadge = $('#cartBadge');
     var cartOverlay = $('#cartOverlay');
@@ -680,11 +864,11 @@
     // ================================================================
     //  UTILITY
     // ================================================================
-    function formatPrice(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' \u20B4'; }
+    function formatPrice(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' ₴'; }
 
-    function getTotalItems() { return cart.reduce(function(s, i) { return s + i.qty; }, 0); }
+    function getTotalItems() { var s = 0; cart.forEach(function(i) { s += i.qty; }); return s; }
 
-    function getTotalPrice() { return cart.reduce(function(s, i) { var p = PRODUCTSDATA.find(function(x) { return x.id === i.id; }); return p ? s + p.price * i.qty : s; }, 0); }
+    function getTotalPrice() { var s = 0; cart.forEach(function(i) { var p = PRODUCTSDATA.find(function(x) { return x.id === i.id; }); if (p) s += p.price * i.qty; }); return s; }
 
     // ================================================================
     //  TOAST
@@ -692,15 +876,48 @@
     function showToast(msg, type) {
       var bg = ({ success: 'bg-green-600', info: 'bg-brand-border', warning: 'bg-[#E62A1B]' })[type] || 'bg-brand-border';
       var el = document.createElement('div');
-      el.className = 'toast px-5 py-2.5 rounded-xl text-sm font-medium pointer-events-auto shadow-lg ' + bg + ' text-white';
+      el.className = 'toast px-4 py-2 rounded-xl text-sm font-medium pointer-events-auto shadow-lg ' + bg + ' text-white';
       el.textContent = msg;
       toastContainer.appendChild(el);
       setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 2700);
     }
 
     // ================================================================
+    //  COUNTER ANIMATION
+    // ================================================================
+    function initCounters() {
+      $$('.counter-value').forEach(function(el) {
+        var target = parseInt(el.dataset.target);
+        if (!target) return;
+        var obs = new IntersectionObserver(function(entries) {
+          entries.forEach(function(e) {
+            if (e.isIntersecting) {
+              var current = 0, step = Math.max(1, Math.floor(target / 40));
+              var timer = setInterval(function() {
+                current += step;
+                if (current >= target) { current = target; clearInterval(timer); }
+                el.textContent = current;
+              }, 30);
+              obs.unobserve(el);
+            }
+          });
+        }, { threshold: 0.5 });
+        obs.observe(el);
+      });
+    }
+
+    // ================================================================
     //  RENDER CATEGORIES
     // ================================================================
+    var badgeStyles = {
+      'badge-hit': 'Хіт продажів',
+      'badge-beer': 'До пива',
+      'badge-tender': 'Ніжний смак',
+      'badge-holiday': 'До святкового столу',
+      'badge-first': 'Для першого знайомства',
+      'badge-limited': 'Обмежена партія'
+    };
+
     function renderCategoryTabs() {
       var cats = ['Усі'].concat(PRODUCTSDATA.map(function(p) { return p.category; }).filter(function(v, i, a) { return a.indexOf(v) === i; }));
       categoryFilters.innerHTML = cats.map(function(c) {
@@ -724,10 +941,10 @@
       if (!filtered.length) {
         catalogGrid.innerHTML =
           '<div class="col-span-full flex flex-col items-center justify-center py-16 sm:py-20 text-center fade-up">' +
-            '<div class="w-20 h-20 rounded-2xl bg-accent-red/5 flex items-center justify-center mb-5 border border-accent-red/10"><i class="fas fa-fish text-3xl text-white/20"></i></div>' +
-            '<h3 class="text-xl font-bold mb-2">Нова партія готується до копчення</h3>' +
-            '<p class="text-sm text-white/60 max-w-md mx-auto mb-6">Актуальный ассортимент обновляется по мере готовности. Свежие анонсы и новые позиции публикуются в нашем Telegram-каналі.</p>' +
-            '<a href="' + TG_LINK + '" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-2xl transition-all text-sm btn-scale"><i class="fab fa-telegram-plane"></i><span>Перейти до Telegram-каналу</span></a>' +
+            '<div class="w-16 h-16 rounded-2xl bg-accent-red/5 flex items-center justify-center mb-4 border border-accent-red/10"><i class="fas fa-fish text-2xl text-white/20"></i></div>' +
+            '<h3 class="text-lg font-bold mb-2">Нова партія готується до копчення</h3>' +
+            '<p class="text-sm text-white/60 max-w-md mx-auto mb-5">Актуальний асортимент оновлюється в міру готовності. Свіжі анонси — у Telegram-каналі.</p>' +
+            '<a href="' + TG_LINK + '" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-xl transition-all text-sm btn-scale"><i class="fab fa-telegram-plane"></i><span>Перейти до Telegram-каналу</span></a>' +
           '</div>';
         return;
       }
@@ -737,21 +954,24 @@
         var delay = (idx % 3) * 0.08;
         var btnHtml = p.isAvailable
           ? (qty > 0
-            ? '<div class="flex items-center gap-1.5"><button class="qty-btn qty-dec w-9 h-9 rounded-lg border border-brand-border-light text-white/70 text-sm font-bold flex items-center justify-center" data-id="' + p.id + '"><i class="fas fa-minus text-[10px]"></i></button><span class="w-8 text-center text-sm font-semibold qty-val" data-id="' + p.id + '">' + qty + '</span><button class="qty-btn qty-inc w-9 h-9 rounded-lg border border-brand-border-light text-white/70 text-sm font-bold flex items-center justify-center" data-id="' + p.id + '"><i class="fas fa-plus text-[10px]"></i></button></div>'
-            : '<button class="add-to-cart w-full px-4 py-2.5 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-xl transition-all text-xs sm:text-sm flex items-center justify-center gap-1.5 btn-scale" data-id="' + p.id + '"><i class="fas fa-plus"></i>В кошик</button>')
-          : '<button disabled class="w-full px-4 py-2.5 bg-brand-border/50 text-white/40 rounded-xl text-xs sm:text-sm cursor-not-allowed flex items-center justify-center gap-1.5"><i class="fas fa-clock"></i>Немає в наявності</button>';
-        var w = p.weightEstimate ? '<p class="text-xs text-white/40"><i class="fas fa-weight text-[10px] mr-1"></i>' + p.weightEstimate + '</p>' : '';
-        return '<div class="fade-up bg-card rounded-2xl border border-brand-border/60 overflow-hidden hover:border-brand-border-light/80 transition-all duration-300 flex flex-col card-glow" style="transition-delay:' + delay + 's">' +
+            ? '<div class="flex items-center gap-1.5"><button class="qty-btn qty-dec w-8 h-8 rounded-lg border border-brand-border-light text-white/70 text-sm font-bold flex items-center justify-center" data-id="' + p.id + '"><i class="fas fa-minus text-[10px]"></i></button><span class="w-7 text-center text-sm font-semibold qty-val" data-id="' + p.id + '">' + qty + '</span><button class="qty-btn qty-inc w-8 h-8 rounded-lg border border-brand-border-light text-white/70 text-sm font-bold flex items-center justify-center" data-id="' + p.id + '"><i class="fas fa-plus text-[10px]"></i></button></div>'
+            : '<button class="add-to-cart w-full px-3 py-2 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-xl transition-all text-xs sm:text-sm flex items-center justify-center gap-1.5 btn-scale" data-id="' + p.id + '"><i class="fas fa-plus text-[10px]"></i>В кошик</button>')
+          : '<button disabled class="w-full px-3 py-2 bg-brand-border/50 text-white/40 rounded-xl text-xs sm:text-sm cursor-not-allowed flex items-center justify-center gap-1.5"><i class="fas fa-clock"></i>Немає в наявності</button>';
+        var badgeHtml = p.badge && p.badgeClass ? '<span class="inline-block text-[10px] font-medium px-2 py-0.5 rounded-full border ' + p.badgeClass + '">' + p.badge + '</span>' : '';
+        var estimateHtml = p.lowEstimate ? '<span class="text-xs text-white/50">' + formatPrice(p.lowEstimate) + '–' + formatPrice(p.highEstimate) + '</span>' : '';
+        return '<div class="fade-up bg-card rounded-xl border border-brand-border/40 overflow-hidden hover:border-brand-border-light/70 transition-all duration-300 flex flex-col card-glow" style="transition-delay:' + delay + 's">' +
           '<div class="relative aspect-[4/3] overflow-hidden bg-brand-border img-reveal">' +
             '<img src="' + p.imageUrl + '" alt="' + p.title + '" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' +
-            '<div class="product-img-fallback hidden w-full h-full items-center justify-center" style="background:linear-gradient(135deg,#1A3580 0%,#12296A 100%)"><i class="fas fa-fish text-4xl text-white/20"></i></div>' +
+            '<div class="product-img-fallback hidden w-full h-full items-center justify-center" style="background:linear-gradient(135deg,#1A3580 0%,#12296A 100%)"><i class="fas fa-fish text-3xl text-white/20"></i></div>' +
             (!p.isAvailable ? '<div class="absolute inset-0 bg-brand-bg/60 flex items-center justify-center"><span class="px-3 py-1.5 bg-card/90 rounded-xl text-xs font-medium text-white/60 border border-brand-border">Тимчасово недоступно</span></div>' : '') +
+            (p.badge && p.isAvailable ? '<div class="absolute top-2 left-2">' + badgeHtml + '</div>' : '') +
           '</div>' +
-          '<div class="flex-1 flex flex-col p-4 sm:p-5 gap-2">' +
-            '<div class="flex items-center gap-2"><span class="text-[10px] sm:text-xs font-medium px-2.5 py-0.5 rounded-full bg-accent-red/10 text-accent-red border border-accent-red/10">' + p.category + '</span></div>' +
-            '<h3 class="text-base sm:text-lg font-bold leading-snug">' + p.title + '</h3>' + w +
+          '<div class="flex-1 flex flex-col p-3.5 sm:p-4 gap-1.5">' +
+            '<div class="flex items-center justify-between"><span class="text-[10px] sm:text-xs font-medium px-2 py-0.5 rounded-full bg-accent-red/10 text-accent-red border border-accent-red/10">' + p.category + '</span>' + (p.pairing ? '<span class="text-[10px] text-white/40"><i class="fas fa-utensils mr-0.5"></i>' + p.pairing.replace(/^(.{18}).*$/, '$1…') + '</span>' : '') + '</div>' +
+            '<h3 class="text-sm sm:text-base font-bold leading-snug">' + p.title + '</h3>' +
+            '<p class="text-xs text-white/40"><i class="fas fa-weight text-[10px] mr-0.5"></i>' + p.weightEstimate + (estimateHtml ? ' · орієнтовно ' + estimateHtml : '') + '</p>' +
             '<p class="text-xs sm:text-sm text-white/60 leading-relaxed line-clamp-2">' + p.description + '</p>' +
-            '<div class="mt-auto pt-2"><p class="text-xl sm:text-2xl font-bold text-accent-gold mb-3">' + formatPrice(p.price) + ' <span class="text-xs font-normal text-white/40">/ ' + p.unit + '</span></p>' + btnHtml + '</div>' +
+            '<div class="mt-auto pt-2"><p class="text-base sm:text-lg font-bold text-accent-gold mb-2">' + formatPrice(p.price) + ' <span class="text-xs font-normal text-white/40">/ ' + p.unit + '</span></p>' + btnHtml + '</div>' +
           '</div></div>';
       }).join('');
       catalogGrid.querySelectorAll('.add-to-cart').forEach(function(b) { b.addEventListener('click', function() { addToCart(b.dataset.id); }); });
@@ -760,16 +980,66 @@
     }
 
     // ================================================================
+    //  RENDER SCENARIOS
+    // ================================================================
+    function renderScenarios() {
+      var filtered = currentScenario === 'all' ? PRODUCTSDATA : PRODUCTSDATA.filter(function(p) { return p.useCase && p.useCase.toLowerCase().indexOf(SCENARIOS.find(function(s) { return s.key === currentScenario; }).label.toLowerCase()) !== -1; });
+      scenarioGrid.innerHTML = filtered.length ? filtered.map(function(p, idx) {
+        return '<div class="fade-up bg-card/60 rounded-xl p-4 sm:p-5 border border-brand-border/30 flex items-center gap-3 sm:gap-4 card-glow" style="transition-delay:' + (idx * 0.06) + 's">' +
+          '<div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg overflow-hidden bg-brand-border shrink-0">' +
+            '<img src="' + p.imageUrl + '" alt="' + p.title + '" class="w-full h-full object-cover" loading="lazy">' +
+          '</div>' +
+          '<div class="flex-1 min-w-0"><p class="text-sm sm:text-base font-bold truncate">' + p.title + '</p><p class="text-xs text-white/50 mt-0.5">' + formatPrice(p.price) + '/кг · ' + p.weightEstimate + '</p></div>' +
+          '<button class="add-to-cart shrink-0 px-3 py-2 bg-accent-red hover:bg-[#E62A1B] text-white font-bold rounded-xl transition-all text-xs btn-scale" data-id="' + p.id + '"><i class="fas fa-plus text-[10px] mr-1"></i>В кошик</button>' +
+        '</div>';
+      }).join('') : '<div class="col-span-full text-center py-8 text-white/50 text-sm">Оберіть сценарій, щоб побачити рекомендації</div>';
+      scenarioGrid.querySelectorAll('.add-to-cart').forEach(function(b) { b.addEventListener('click', function() { addToCart(b.dataset.id); }); });
+    }
+
+    function renderScenarioTabs() {
+      scenarioFilters.innerHTML = SCENARIOS.map(function(s) {
+        return '<button class="scenario-tab' + (s.key === currentScenario ? ' active' : '') + ' px-3.5 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium border border-brand-border/40 bg-card/40 text-white/70 flex items-center gap-1.5 transition-all duration-200" data-scenario="' + s.key + '"><i class="fas ' + s.icon + ' text-accent-gold text-[10px]"></i>' + s.label + '</button>';
+      }).join('');
+      $$('.scenario-tab').forEach(function(b) {
+        b.addEventListener('click', function() {
+          currentScenario = b.dataset.scenario;
+          $$('.scenario-tab').forEach(function(x) { x.classList.remove('active'); });
+          b.classList.add('active');
+          renderScenarios();
+        });
+      });
+    }
+
+    // ================================================================
+    //  RENDER SETS
+    // ================================================================
+    function renderSets() {
+      setsGrid.innerHTML = SETSDATA.map(function(s, idx) {
+        return '<div class="bg-card rounded-xl border border-brand-border/40 overflow-hidden card-glow fade-up" style="transition-delay:' + (idx * 0.08) + 's">' +
+          '<div class="p-4 sm:p-5">' +
+            '<div class="w-9 h-9 rounded-lg bg-accent-red/10 flex items-center justify-center mb-3"><i class="fas ' + s.icon + ' text-accent-red text-sm"></i></div>' +
+            '<h3 class="text-base sm:text-lg font-bold mb-1.5">' + s.title + '</h3>' +
+            '<p class="text-xs text-white/60 leading-relaxed mb-3">' + s.description + '</p>' +
+            '<div class="flex flex-wrap gap-1.5 mb-3">' +
+              s.items.map(function(it) { return '<span class="text-[10px] px-2 py-0.5 rounded-full bg-brand-border/30 text-white/60 border border-brand-border/30">' + it + '</span>'; }).join('') +
+            '</div>' +
+            '<div class="flex items-center justify-between mt-auto pt-2 border-t border-brand-border/20">' +
+              '<span class="text-sm font-bold text-accent-gold">' + s.price + '</span>' +
+              '<a href="" target="_blank" rel="noopener noreferrer" class="js-tg-link px-3 py-1.5 bg-accent-red hover:bg-[#E62A1B] text-white font-semibold rounded-lg transition-all text-xs btn-scale flex items-center gap-1"><i class="fab fa-telegram-plane"></i>Замовити</a>' +
+            '</div>' +
+          '</div></div>';
+      }).join('');
+    }
+
+    // ================================================================
     //  RENDER GALLERY
     // ================================================================
     function renderGallery() {
-      galleryGrid.innerHTML = GALLERY_IMAGES.map(function(src, i) {
-        var delays = [0, 0.08, 0.16, 0.24, 0.32, 0.4];
-        var delay = delays[i] || 0;
-        return '<div class="gallery-item rounded-2xl overflow-hidden border border-brand-border/40 fade-up aspect-[3/4]" style="transition-delay:' + delay + 's">' +
-          '<div class="relative overflow-hidden img-reveal rounded-2xl">' +
-            '<img src="' + src + '" alt="Продукція SmokeFishBarn" class="w-full h-full object-cover" loading="lazy">' +
-            '<div class="absolute inset-0 bg-brand-bg/0 hover:bg-brand-bg/10 transition-all duration-500"></div>' +
+      galleryGrid.innerHTML = GALLERY_IMAGES.map(function(item, i) {
+        var delay = (i % 4) * 0.06;
+        return '<div class="gallery-item rounded-xl overflow-hidden border border-brand-border/30 fade-up ' + item.aspect + '" style="transition-delay:' + delay + 's">' +
+          '<div class="relative overflow-hidden img-reveal rounded-xl h-full">' +
+            '<img src="' + item.src + '" alt="Продукція SmokeFishBarn" class="w-full h-full object-cover" loading="lazy">' +
           '</div></div>';
       }).join('');
     }
@@ -792,7 +1062,7 @@
       updateCartUI();
     }
     function updateCartUI() {
-      updateCartBadge(); renderCartItems(); renderProducts();
+      updateCartBadge(); renderCartItems(); renderProducts(); renderScenarios();
       var t = getTotalPrice(), c = getTotalItems();
       cartTotal.textContent = formatPrice(t);
       cartTitleCount.textContent = c ? '(' + c + ')' : '';
@@ -806,20 +1076,20 @@
     }
     function renderCartItems() {
       if (!cart.length) {
-        cartItems.innerHTML = '<div class="flex flex-col items-center justify-center h-full text-center text-white/40"><i class="fas fa-shopping-bag text-4xl mb-3 opacity-30"></i><p class="text-sm font-medium">Кошик пуста</p><p class="text-xs mt-1">Добавьте товары из каталога</p></div>';
+        cartItems.innerHTML = '<div class="flex flex-col items-center justify-center h-full text-center text-white/40"><i class="fas fa-shopping-bag text-3xl mb-2.5 opacity-30"></i><p class="text-sm font-medium">Кошик порожній</p><p class="text-xs mt-1">Додайте товари з каталогу</p></div>';
         return;
       }
       cartItems.innerHTML = cart.map(function(c) {
         var p = PRODUCTSDATA.find(function(x) { return x.id === c.id; });
         if (!p) return '';
-        return '<div class="flex items-start gap-3 bg-brand-border/30 rounded-xl p-3 sm:p-4 border border-brand-border/40">' +
-          '<div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-brand-border shrink-0">' +
-            '<img src="' + p.imageUrl + '" alt="' + p.title + '" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<i class=\\\'fas fa-fish\\\' style=\\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:rgba(255,255,255,0.3);font-size:1.2rem\\\'></i>\'">' +
+        return '<div class="flex items-start gap-2.5 bg-brand-border/20 rounded-lg p-2.5 sm:p-3 border border-brand-border/30">' +
+          '<div class="w-12 h-12 sm:w-14 sm:h-14 rounded-lg overflow-hidden bg-brand-border shrink-0">' +
+            '<img src="' + p.imageUrl + '" alt="' + p.title + '" class="w-full h-full object-cover" loading="lazy" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<i class=\\\'fas fa-fish\\\' style=\\\'display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:rgba(255,255,255,0.2);font-size:1rem\\\'></i>\'">' +
           '</div>' +
-          '<div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">' + p.title + '</p><p class="text-xs text-white/60 mt-0.5">' + formatPrice(p.price) + ' / ' + p.unit + '</p>' +
-            '<div class="flex items-center gap-2 mt-2"><button class="qty-btn inline-flex items-center justify-center w-7 h-7 rounded-md border border-brand-border-light text-white/70 text-xs cart-dec" data-id="' + c.id + '"><i class="fas fa-minus"></i></button>' +
-            '<span class="text-sm font-semibold w-6 text-center">' + c.qty + '</span>' +
-            '<button class="qty-btn inline-flex items-center justify-center w-7 h-7 rounded-md border border-brand-border-light text-white/70 text-xs cart-inc" data-id="' + c.id + '"><i class="fas fa-plus"></i></button>' +
+          '<div class="flex-1 min-w-0"><p class="text-sm font-medium truncate">' + p.title + '</p><p class="text-xs text-white/50 mt-0.5">' + formatPrice(p.price) + '/кг</p>' +
+            '<div class="flex items-center gap-1.5 mt-1.5"><button class="qty-btn inline-flex items-center justify-center w-6 h-6 rounded-md border border-brand-border-light text-white/70 text-xs cart-dec" data-id="' + c.id + '"><i class="fas fa-minus text-[8px]"></i></button>' +
+            '<span class="text-sm font-semibold w-5 text-center">' + c.qty + '</span>' +
+            '<button class="qty-btn inline-flex items-center justify-center w-6 h-6 rounded-md border border-brand-border-light text-white/70 text-xs cart-inc" data-id="' + c.id + '"><i class="fas fa-plus text-[8px]"></i></button>' +
             '<button class="ml-auto text-xs text-white/40 hover:text-accent-red transition-colors cart-remove" data-id="' + c.id + '"><i class="fas fa-trash-alt"></i></button></div></div>' +
           '<div class="text-right shrink-0"><p class="text-sm font-bold text-accent-gold">' + formatPrice(p.price * c.qty) + '</p></div></div>';
       }).join('');
@@ -838,23 +1108,23 @@
       var name = orderName.value.trim();
       var phone = orderPhone.value.trim();
       var comment = orderComment.value.trim();
-      if (!name) { showToast('Будь ласка, введіть імя', 'warning'); return; }
-      if (!phone) { showToast('Будь ласка, введіть телефон', 'warning'); return; }
-      if (!cart.length) { showToast('Кошик пуста', 'warning'); return; }
-      var lines = ['\uD83D\uDECD \u041D\u041E\u0412\u042B\u0419 \u0417\u0410\u041A\u0410\u0417 | SmokeFishBarn', '',
-        '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501',
-        '\uD83D\uDCCB \u0421\u041E\u0421\u0422\u0410\u0412 \u0417\u0410\u041A\u0410\u0417\u0410:',
-        '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501', ''];
+      if (!name) { showToast('Введіть ім\'я', 'warning'); return; }
+      if (!phone) { showToast('Введіть телефон', 'warning'); return; }
+      if (!cart.length) { showToast('Кошик порожній', 'warning'); return; }
+      var lines = ['🛒 НОВЕ ЗАМОВЛЕННЯ | SmokeFishBarn', '',
+        '━━━━━━━━━━━━━━━━━━━━━━━━',
+        '📋 СКЛАД ЗАМОВЛЕННЯ:',
+        '━━━━━━━━━━━━━━━━━━━━━━━━', ''];
       cart.forEach(function(c, i) {
         var p = PRODUCTSDATA.find(function(x) { return x.id === c.id; });
-        if (p) lines.push((i + 1) + '. ' + p.title + ' \u00D7 ' + c.qty + ' = ' + formatPrice(p.price * c.qty));
+        if (p) lines.push((i + 1) + '. ' + p.title + ' × ' + c.qty + ' = ' + formatPrice(p.price * c.qty));
       });
-      lines.push('', '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501',
-        '\uD83D\uDCB0 \u0418\u0422\u041E\u0413\u041E: ' + formatPrice(getTotalPrice()),
-        '\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501\u2501', '',
-        '\uD83D\uDC64 \u0418\u043C\u044F: ' + name, '\uD83D\uDCDE \u0422\u0435\u043B\u0435\u0444\u043E\u043D: ' + phone);
-      if (comment) lines.push('\uD83D\uDCDD \u041A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439: ' + comment);
-      window.open('https://t.me/Alexander_S_30W?text=' + encodeURIComponent(lines.join('\n')), '_blank');
+      lines.push('', '━━━━━━━━━━━━━━━━━━━━━━━━',
+        '💰 РАЗОМ: ' + formatPrice(getTotalPrice()),
+        '━━━━━━━━━━━━━━━━━━━━━━━━', '',
+        '👤 Ім\'я: ' + name, '📞 Телефон: ' + phone);
+      if (comment) lines.push('📝 Коментар: ' + comment);
+      window.open('https://t.me/SmokeFishBarn?text=' + encodeURIComponent(lines.join('\n')), '_blank');
       showToast('Замовлення надіслано в Telegram!', 'success');
       cart = []; updateCartUI(); closeCart(); orderName.value = ''; orderPhone.value = ''; orderComment.value = '';
     }
@@ -886,19 +1156,8 @@
             obs.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+      }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
       $$('.fade-up, .fade-in, .scale-in, .slide-left, .slide-right').forEach(function(el) { obs.observe(el); });
-
-      // Progress line in process section
-      var prog = document.querySelector('.progress-line');
-      if (prog) {
-        var progObs = new IntersectionObserver(function(entries) {
-          entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); progObs.unobserve(e.target); } });
-        }, { threshold: 0.3 });
-        progObs.observe(prog);
-        // Also observe the process numbers for scale animation
-        $$('.scale-in').forEach(function(el) { obs.observe(el); });
-      }
     }
 
     // ================================================================
@@ -910,8 +1169,7 @@
       window.addEventListener('scroll', function() {
         var rect = hero.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
-          var offset = rect.top * -0.15;
-          hero.style.transform = 'translateY(' + offset + 'px)';
+          hero.style.transform = 'translateY(' + (rect.top * -0.15) + 'px)';
         }
       }, { passive: true });
     }
@@ -940,7 +1198,7 @@
         var link = e.target.closest('a[href^="#"]');
         if (!link) return;
         var target = document.querySelector(link.getAttribute('href'));
-        if (target) { e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth' }); }
+        if (target) { e.preventDefault(); window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 70, behavior: 'smooth' }); }
       });
     }
 
@@ -952,12 +1210,23 @@
     }
 
     // ================================================================
+    //  SCENARIO TAB STYLES (add to head)
+    // ================================================================
+    var scenarioStyle = document.createElement('style');
+    scenarioStyle.textContent = '.scenario-tab.active { background: var(--accent-red); color: #fff; border-color: var(--accent-red); } .scenario-tab.active i { color: #fff; } .scenario-tab:not(.active):hover { background: rgba(255,48,31,0.1); }';
+    document.head.appendChild(scenarioStyle);
+
+    // ================================================================
     //  INIT
     // ================================================================
     function init() {
       renderCategoryTabs();
       renderProducts();
       renderGallery();
+      renderScenarioTabs();
+      renderScenarios();
+      renderSets();
+      initCounters();
 
       cartBtn.addEventListener('click', openCart);
       cartCloseBtn.addEventListener('click', closeCart);
