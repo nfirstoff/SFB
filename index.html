@@ -1111,7 +1111,7 @@
             '</div>' +
             '<div class="flex items-center justify-between mt-auto pt-2 border-t border-brand-border/20">' +
               '<span class="text-xs text-white/60"><i class="fab fa-telegram-plane mr-1"></i>Уточнити в чаті</span>' +
-              '<a href="" target="_blank" rel="noopener noreferrer" class="js-tg-order px-3 py-1.5 bg-accent-red hover:bg-[#E62A1B] text-white font-semibold rounded-lg transition-all text-xs btn-scale flex items-center gap-1"><i class="fab fa-telegram-plane"></i>Замовити</a>' +
+              '<button class="js-set-order px-3 py-1.5 bg-accent-red hover:bg-[#E62A1B] text-white font-semibold rounded-lg transition-all text-xs btn-scale flex items-center gap-1" data-set-id="' + s.id + '"><i class="fab fa-telegram-plane"></i>Замовити</button>' +
             '</div>' +
           '</div></div>';
       }).join('');
@@ -1219,6 +1219,23 @@
       window.open(TG_ORDER_LINK + '?text=' + encodeURIComponent(lines.join('\n')), '_blank');
       showToast('Замовлення надіслано в Telegram!', 'success');
       cart = []; updateCartUI(); closeCart(); orderName.value = ''; orderPhone.value = ''; orderCity.value = ''; orderPostOffice.value = ''; orderComment.value = '';
+    }
+
+    function sendSetOrderToTelegram(setId) {
+      var set = SETSDATA.find(function(s) { return s.id === setId; });
+      if (!set) return;
+      var lines = ['🛒 ЗАМОВЛЕННЯ НАБОРУ | SmokeFishBarn', '',
+        '━━━━━━━━━━━━━━━━━━━━━━━━',
+        '📦 ' + set.title,
+        '━━━━━━━━━━━━━━━━━━━━━━━━', ''];
+      set.items.forEach(function(it, i) {
+        lines.push((i + 1) + '. ' + it);
+      });
+      lines.push('', '━━━━━━━━━━━━━━━━━━━━━━━━',
+        '✏️ Ім\'я, телефон, місто та відділення — допишіть нижче',
+        '━━━━━━━━━━━━━━━━━━━━━━━━');
+      window.open(TG_ORDER_LINK + '?text=' + encodeURIComponent(lines.join('\n')), '_blank');
+      showToast('Запит на набір надіслано в Telegram!', 'success');
     }
 
     // ================================================================
@@ -1338,6 +1355,7 @@
 
       $$('.js-tg-channel').forEach(function(a) { a.href = TG_LINK; });
       $$('.js-tg-order').forEach(function(a) { a.href = TG_ORDER_LINK; });
+      $$('.js-set-order').forEach(function(b) { b.addEventListener('click', function() { sendSetOrderToTelegram(b.dataset.setId); }); });
 
       initFaq();
       initSmoothScroll();
