@@ -1202,17 +1202,17 @@
       if (!postOffice) { showToast('Введіть відділення Нової пошти', 'warning'); return; }
       if (!cart.length) { showToast('Кошик порожній', 'warning'); return; }
       var lines = ['🛒 НОВЕ ЗАМОВЛЕННЯ | SmokeFishBarn', '',
-        '━━━━━━━━━━━━━━━━━━━━━━━━',
+        '━━━━━━━━━━━━━━━━━',
         '📋 СКЛАД ЗАМОВЛЕННЯ:',
-        '━━━━━━━━━━━━━━━━━━━━━━━━', ''];
+        '━━━━━━━━━━━━━━━━━', ''];
       cart.forEach(function(c, i) {
         var p = PRODUCTSDATA.find(function(x) { return x.id === c.id; });
         if (p) lines.push((i + 1) + '. ' + p.title + ' × ' + c.qty + (p.price ? ' = ' + formatPrice(p.price * c.qty) : ' — ціна уточнюється'));
       });
       var totalPrice = getTotalPrice();
-      lines.push('', '━━━━━━━━━━━━━━━━━━━━━━━━',
+      lines.push('', '━━━━━━━━━━━━━━━━━',
         totalPrice ? '💰 РАЗОМ: ' + formatPrice(totalPrice) : '💰 Ціни уточнюються в Telegram',
-        '━━━━━━━━━━━━━━━━━━━━━━━━', '',
+        '━━━━━━━━━━━━━━━━━', '',
         '👤 Ім\'я: ' + name, '📞 Телефон: ' + phone,
         '🏙 Місто: ' + city, '📦 Відділення НП: ' + postOffice);
       if (comment) lines.push('📝 Коментар: ' + comment);
@@ -1225,15 +1225,15 @@
       var set = SETSDATA.find(function(s) { return s.id === setId; });
       if (!set) return;
       var lines = ['🛒 ЗАМОВЛЕННЯ НАБОРУ | SmokeFishBarn', '',
-        '━━━━━━━━━━━━━━━━━━━━━━━━',
+        '━━━━━━━━━━━━━━━━━',
         '📦 ' + set.title,
-        '━━━━━━━━━━━━━━━━━━━━━━━━', ''];
+        '━━━━━━━━━━━━━━━━━', ''];
       set.items.forEach(function(it, i) {
         lines.push((i + 1) + '. ' + it);
       });
-      lines.push('', '━━━━━━━━━━━━━━━━━━━━━━━━',
+      lines.push('', '━━━━━━━━━━━━━━━━━',
         '✏️ Ім\'я, телефон, місто та відділення — допишіть нижче',
-        '━━━━━━━━━━━━━━━━━━━━━━━━');
+        '━━━━━━━━━━━━━━━━━');
       window.open(TG_ORDER_LINK + '?text=' + encodeURIComponent(lines.join('\n')), '_blank');
       showToast('Запит на набір надіслано в Telegram!', 'success');
     }
